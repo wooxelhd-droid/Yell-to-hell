@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YELL TO HELL 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --hell-red: #FF1500;
+    --hell-orange: #FF6B00;
+    --hell-yellow: #FFB800;
+    --ember: #FF4500;
+    --deep-black: #050505;
+    --char: #0f0f0f;
+    --ash: #1a1a1a;
+    --smoke: #2a2a2a;
+    --text-bright: #FFFFFF;
+    --text-dim: #888888;
+    --glow-red: 0 0 20px #FF1500, 0 0 60px #FF150055;
+    --glow-orange: 0 0 20px #FF6B00, 0 0 60px #FF6B0055;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--deep-black);
+    color: var(--text-bright);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ===== EMBER PARTICLES BG ===== */
+  #particles-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .ember {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFB800 0%, #FF4500 50%, transparent 100%);
+    animation: riseUp linear infinite;
+    pointer-events: none;
+  }
+  @keyframes riseUp {
+    0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-110vh) translateX(var(--drift)) scale(0.3); opacity: 0; }
+  }
+
+  /* ===== SCREEN SYSTEM ===== */
+  .screen {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .screen.hidden {
+    opacity: 0; pointer-events: none; transform: scale(0.97);
+  }
+  .screen.slide-out-left {
+    animation: slideOutLeft 0.4s ease forwards;
+  }
+  .screen.slide-in-right {
+    animation: slideInRight 0.4s ease forwards;
+  }
+  @keyframes slideOutLeft {
+    to { opacity: 0; transform: translateX(-60px) scale(0.95); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(60px) scale(1.03); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  /* ===== LOGO ===== */
+  .logo-wrap {
+    position: relative; margin-bottom: 12px;
+    animation: logoPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 0 18px #FF1500) drop-shadow(0 0 50px #FF150055); }
+    50%       { filter: drop-shadow(0 0 35px #FF6B00) drop-shadow(0 0 80px #FF6B0055); }
+  }
+  .logo {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(52px, 10vw, 96px);
+    letter-spacing: 4px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFB800 30%, #FF6B00 60%, #FF1500 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .logo-sub {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(14px, 2.5vw, 20px);
+    letter-spacing: 12px;
+    color: var(--hell-orange);
+    text-align: center;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+
+  /* ===== FLAME SVG DECORATION ===== */
+  .flame-deco {
+    position: absolute; width: 60px; opacity: 0.6;
+    animation: flameDance 1.2s ease-in-out infinite alternate;
+  }
+  .flame-deco.left  { left: -70px; top: 50%; transform: translateY(-50%) scaleX(-1); }
+  .flame-deco.right { right: -70px; top: 50%; transform: translateY(-50%); }
+  @keyframes flameDance {
+    0%   { transform: translateY(-50%) scaleX(-1) scaleY(1) rotate(-3deg); }
+    100% { transform: translateY(-50%) scaleX(-1) scaleY(1.15) rotate(3deg); }
+  }
+  .flame-deco.right { animation: flameDanceR 1.2s ease-in-out infinite alternate; }
+  @keyframes flameDanceR {
+    0%   { transform: translateY(-50%) scaleY(1) rotate(3deg); }
+    100% { transform: translateY(-50%) scaleY(1.15) rotate(-3deg); }
+  }
+
+  /* ===== INPUT ===== */
+  .glass-card {
+    background: linear-gradient(135deg, rgba(255,69,0,0.08) 0%, rgba(15,15,15,0.95) 100%);
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 16px;
+    padding: 36px 40px;
+    width: min(420px, 92vw);
+    box-shadow: 0 0 40px rgba(255,21,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+  }
+  .field-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--hell-orange); text-transform: uppercase;
+    margin-bottom: 8px; display: block;
+  }
+  .name-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,107,0,0.3);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 18px; font-weight: 700;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+  }
+  .name-input:focus {
+    border-color: var(--hell-orange);
+    box-shadow: 0 0 20px rgba(255,107,0,0.3);
+  }
+  .name-input::placeholder { color: #444; }
+
+  /* ===== BUTTONS ===== */
+  .btn-hell {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #FF1500 0%, #FF6B00 100%);
+    border: none; border-radius: 12px;
+    color: #fff; font-family: 'Black Ops One', cursive;
+    font-size: 20px; letter-spacing: 3px;
+    padding: 16px 40px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 30px rgba(255,21,0,0.5), 0 0 0 1px rgba(255,107,0,0.4);
+    text-transform: uppercase; width: 100%;
+    margin-top: 24px;
+  }
+  .btn-hell::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .btn-hell:hover  { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(255,21,0,0.7), 0 0 0 1px rgba(255,107,0,0.6); }
+  .btn-hell:active { transform: translateY(0) scale(0.98); }
+  .btn-ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple 0.6s linear; pointer-events: none; }
+  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+  /* ===== MATCHMAKING SCREEN ===== */
+  #screen-match { gap: 32px; }
+  .match-orbit {
+    position: relative; width: 180px; height: 180px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .orbit-ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--hell-red);
+    border-right-color: var(--hell-orange);
+    animation: orbit 1.5s linear infinite;
+  }
+  .orbit-ring.r2 {
+    inset: 16px;
+    border-top-color: transparent;
+    border-bottom-color: var(--hell-yellow);
+    animation: orbit 2.2s linear infinite reverse;
+  }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  .orbit-icon {
+    font-size: 60px;
+    animation: iconPulse 1.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px #FF6B00);
+  }
+  @keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.12); }
+  }
+  .match-status {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px; letter-spacing: 6px;
+    color: var(--hell-orange);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .match-dots span {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--hell-red); margin: 0 3px;
+    animation: dotBounce 0.9s ease-in-out infinite;
+  }
+  .match-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .match-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  /* ===== COUNTDOWN/FOUND SCREEN ===== */
+  #screen-found { gap: 20px; }
+  .vs-banner {
+    display: flex; align-items: center; gap: 20px;
+    width: min(600px, 95vw);
+  }
+  .player-card {
+    flex: 1; text-align: center;
+    background: rgba(255,21,0,0.08);
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 12px; padding: 20px 10px;
+  }
+  .player-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #FF1500, #FF6B00);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; margin: 0 auto 10px;
+    box-shadow: 0 0 20px rgba(255,107,0,0.4);
+  }
+  .player-name-label {
+    font-family: 'Black Ops One', cursive;
+    font-size: 18px; color: #fff; letter-spacing: 1px;
+    word-break: break-all;
+  }
+  .vs-text {
+    font-family: 'Black Ops One', cursive;
+    font-size: 48px; color: var(--hell-red);
+    filter: drop-shadow(0 0 20px #FF1500);
+    animation: vsPulse 0.8s ease-in-out infinite alternate;
+  }
+  @keyframes vsPulse { from{transform:scale(1)} to{transform:scale(1.15)} }
+  .countdown-num {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(80px, 20vw, 140px);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FF6B00 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: countDown 1s ease-in-out;
+  }
+  @keyframes countDown {
+    0%   { transform: scale(1.4); opacity: 0; }
+    40%  { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  /* ===== BATTLE SCREEN ===== */
+  #screen-battle {
+    justify-content: space-between;
+    padding: 20px;
+    gap: 0;
+  }
+  .battle-header {
+    width: 100%; display: flex;
+    align-items: center; justify-content: space-between;
+    padding: 0 10px;
+  }
+  .timer-display {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(36px, 8vw, 56px);
+    color: var(--hell-yellow);
+    text-shadow: 0 0 20px #FFB800;
+    transition: color 0.3s, text-shadow 0.3s;
+    min-width: 80px; text-align: center;
+  }
+  .timer-display.urgent {
+    color: var(--hell-red) !important;
+    text-shadow: 0 0 30px #FF1500 !important;
+    animation: timerShake 0.15s infinite;
+  }
+  @keyframes timerShake {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)}
+  }
+  .battle-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(22px, 5vw, 36px);
+    background: linear-gradient(90deg, #FF1500, #FF6B00);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    text-align: center;
+  }
+
+  .battle-arena {
+    display: flex; align-items: flex-end; justify-content: center;
+    gap: 30px; width: 100%; flex: 1;
+    padding: 10px 20px;
+  }
+
+  /* ===== VOLUME BARS ===== */
+  .vol-player-wrap {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 10px; max-width: 200px;
+  }
+  .vol-label {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px; letter-spacing: 3px; color: var(--text-dim);
+    transition: color 0.3s;
+  }
+  .vol-label.active { color: var(--hell-orange); }
+  .vol-bar-track {
+    width: 70px; height: 280px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255,107,0,0.2);
+    position: relative; overflow: hidden;
+  }
+  .vol-bar-fill {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, #FFB800 0%, #FF6B00 40%, #FF1500 100%);
+    border-radius: 8px;
+    transition: height 0.05s linear;
+    box-shadow: 0 0 20px rgba(255,107,0,0.5);
+  }
+  .vol-bar-fill.enemy {
+    background: linear-gradient(180deg, #CC00FF 0%, #7700CC 100%);
+    box-shadow: 0 0 20px rgba(150,0,255,0.5);
+  }
+  .vol-percent {
+    font-family: 'Black Ops One', cursive;
+    font-size: 26px; color: #fff;
+  }
+  .vol-name {
+    font-weight: 900; font-size: 13px; letter-spacing: 1px;
+    color: var(--text-dim); max-width: 120px; text-align: center;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  .vs-divider {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px; padding-bottom: 30px;
+  }
+  .vs-small {
+    font-family: 'Black Ops One', cursive;
+    font-size: 28px; color: var(--hell-red);
+    filter: drop-shadow(0 0 10px #FF1500);
+  }
+
+  /* ===== SCREAM BUTTON ===== */
+  .scream-btn-wrap {
+    width: 100%; display: flex; justify-content: center;
+    padding: 10px 20px 20px;
+  }
+  .scream-btn {
+    width: min(300px, 85vw); height: 70px;
+    background: linear-gradient(135deg, #FF1500, #FF6B00);
+    border: none; border-radius: 14px;
+    font-family: 'Black Ops One', cursive;
+    font-size: 24px; letter-spacing: 3px; color: #fff;
+    cursor: pointer; position: relative; overflow: hidden;
+    box-shadow: 0 6px 40px rgba(255,21,0,0.6), 0 0 0 2px rgba(255,107,0,0.3);
+    transition: transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .scream-btn:active { transform: scale(0.96); }
+  .scream-btn .mic-icon { font-size: 26px; }
+
+  /* ===== FIRE EFFECTS ===== */
+  .fire-burst {
+    position: fixed; pointer-events: none; z-index: 999;
+    animation: burstFade 0.8s ease-out forwards;
+    font-size: 40px;
+  }
+  @keyframes burstFade {
+    0%   { transform: scale(0.5) translateY(0); opacity: 1; }
+    100% { transform: scale(1.8) translateY(-60px); opacity: 0; }
+  }
+  .screen-flash {
+    position: fixed; inset: 0; z-index: 998; pointer-events: none;
+    background: radial-gradient(circle at center, rgba(255,107,0,0.4) 0%, transparent 70%);
+    animation: flashFade 0.4s ease-out forwards;
+  }
+  @keyframes flashFade { to { opacity: 0; } }
+
+  .shake { animation: screenShake 0.4s ease-in-out; }
+  @keyframes screenShake {
+    0%,100%{transform:translate(0,0)}
+    20%{transform:translate(-6px,4px)}
+    40%{transform:translate(6px,-4px)}
+    60%{transform:translate(-4px,2px)}
+    80%{transform:translate(4px,-2px)}
+  }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result { gap: 24px; }
+  .result-badge {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(50px, 12vw, 90px);
+    letter-spacing: 4px;
+    animation: resultDrop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .result-badge.win {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFB800 40%, #FF6B00 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    filter: drop-shadow(0 0 30px #FF6B00);
+  }
+  .result-badge.lose {
+    color: #444;
+    filter: none;
+  }
+  .result-badge.draw {
+    background: linear-gradient(180deg, #fff 0%, #888 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  @keyframes resultDrop {
+    from { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .result-scores {
+    display: flex; gap: 20px; align-items: center;
+    width: min(500px, 92vw);
+  }
+  .score-card {
+    flex: 1; text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,107,0,0.2);
+    border-radius: 12px; padding: 16px 10px;
+  }
+  .score-card.winner { border-color: var(--hell-orange); background: rgba(255,107,0,0.08); }
+  .score-val {
+    font-family: 'Black Ops One', cursive;
+    font-size: 36px; color: var(--hell-orange);
+  }
+  .score-name { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+  .result-sub {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 18px; letter-spacing: 6px;
+    color: var(--text-dim);
+  }
+
+  /* ===== AUDIO PERMISSION SCREEN ===== */
+  #screen-audio { gap: 24px; text-align: center; }
+  .perm-icon { font-size: 72px; animation: iconBob 1.5s ease-in-out infinite alternate; }
+  @keyframes iconBob { from{transform:translateY(0)} to{transform:translateY(-14px)} }
+  .perm-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: 32px; letter-spacing: 2px; color: var(--hell-orange);
+  }
+  .perm-desc { color: var(--text-dim); font-size: 15px; line-height: 1.6; max-width: 320px; }
+
+  /* ===== SETTINGS BTN ===== */
+  .settings-btn {
+    position: fixed; top: 20px; right: 20px; z-index: 100;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,107,0,0.2);
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 20px; cursor: pointer; color: #fff;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .settings-btn:hover { background: rgba(255,107,0,0.15); transform: rotate(30deg); }
+
+  /* ===== SETTINGS MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: #0f0f0f;
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 20px; padding: 32px;
+    width: min(400px, 92vw);
+    box-shadow: 0 0 60px rgba(255,21,0,0.2);
+    transform: scale(0.9); transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal h2 {
+    font-family: 'Black Ops One', cursive;
+    font-size: 24px; letter-spacing: 2px;
+    margin-bottom: 24px; color: var(--hell-orange);
+  }
+  .setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .setting-row:last-of-type { border: none; }
+  .setting-label { font-size: 14px; color: #ccc; font-weight: 600; }
+  .toggle {
+    width: 48px; height: 26px; border-radius: 13px;
+    background: rgba(255,255,255,0.12); position: relative; cursor: pointer;
+    transition: background 0.3s;
+  }
+  .toggle.on { background: linear-gradient(90deg, #FF1500, #FF6B00); }
+  .toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; transition: transform 0.3s;
+  }
+  .toggle.on::after { transform: translateX(22px); }
+  .modal-close {
+    background: none; border: 1px solid rgba(255,107,0,0.3);
+    color: #888; border-radius: 8px; padding: 10px 20px;
+    cursor: pointer; font-size: 14px; margin-top: 20px;
+    width: 100%; transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,107,0,0.1); color: #fff; }
+
+  /* ===== CONNECTING INDICATOR ===== */
+  .connection-dot {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--hell-orange);
+    animation: connPulse 1.5s ease-in-out infinite;
+    z-index: 100;
+  }
+  @keyframes connPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,107,0,0.7)} 50%{box-shadow:0 0 0 8px rgba(255,107,0,0)} }
+  .connection-dot.connected { background: #00FF88; animation: none; box-shadow: 0 0 10px #00FF88; }
+  .connection-dot.disconnected { background: #FF1500; }
+
+  /* ===== NOISE METER (waveform) ===== */
+  .waveform {
+    display: flex; align-items: center; gap: 3px;
+    height: 40px; padding: 0 10px;
+  }
+  .wave-bar {
+    width: 4px; border-radius: 2px;
+    background: linear-gradient(180deg, #FFB800, #FF1500);
+    animation: waveAnim 0.6s ease-in-out infinite alternate;
+    height: 4px;
+  }
+  .wave-bar:nth-child(2)  { animation-delay: 0.1s; }
+  .wave-bar:nth-child(3)  { animation-delay: 0.2s; }
+  .wave-bar:nth-child(4)  { animation-delay: 0.3s; }
+  .wave-bar:nth-child(5)  { animation-delay: 0.4s; }
+  .wave-bar:nth-child(6)  { animation-delay: 0.3s; }
+  .wave-bar:nth-child(7)  { animation-delay: 0.2s; }
+  .wave-bar:nth-child(8)  { animation-delay: 0.1s; }
+  .wave-bar:nth-child(9)  { animation-delay: 0.0s; }
+  .waveform.active .wave-bar { animation: waveAnimActive 0.15s ease-in-out infinite alternate; }
+  @keyframes waveAnim { to { height: 6px; } }
+  @keyframes waveAnimActive { to { height: var(--h, 30px); } }
+
+  /* ===== CROWD ROAR EFFECT ===== */
+  .roar-text {
+    position: fixed; z-index: 999;
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(40px, 10vw, 72px);
+    background: linear-gradient(90deg, #FF1500, #FF6B00, #FFB800);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    pointer-events: none;
+    animation: roarFly 0.9s ease-out forwards;
+    letter-spacing: 3px;
+    left: 50%; transform: translateX(-50%);
+  }
+  @keyframes roarFly {
+    0%   { opacity: 0; top: 60%; transform: translateX(-50%) scale(0.5); }
+    30%  { opacity: 1; top: 40%; transform: translateX(-50%) scale(1.1); }
+    100% { opacity: 0; top: 20%; transform: translateX(-50%) scale(0.8); }
+  }
+
+  /* ===== LOOT BOX GLOW ===== */
+  .crown-icon { font-size: 32px; animation: crownBounce 0.5s ease-in-out infinite alternate; }
+  @keyframes crownBounce { from{transform:translateY(0) rotate(-5deg)} to{transform:translateY(-8px) rotate(5deg)} }
+
+  /* ===== DEMO TAG ===== */
+  .demo-tag {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; letter-spacing: 2px; color: rgba(255,107,0,0.4);
+    font-weight: 700; text-transform: uppercase; z-index: 50;
+  }
+
+  @media(max-height: 700px) {
+    .vol-bar-track { height: 200px; }
+    .glass-card { padding: 24px 28px; }
+    .logo { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BG PARTICLES -->
+<div id="particles-bg"></div>
+
+<!-- SETTINGS BTN -->
+<button class="settings-btn" onclick="toggleSettings()" title="Einstellungen">⚙️</button>
+
+<!-- CONNECTION DOT -->
+<div class="connection-dot" id="connDot" title="Server-Verbindung"></div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2>⚙️ EINSTELLUNGEN</h2>
+    <div class="setting-row">
+      <span class="setting-label">🔊 Soundeffekte</span>
+      <div class="toggle on" id="tog-sfx" onclick="toggleSetting('sfx')"></div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">🎵 Hintergrundmusik</span>
+      <div class="toggle on" id="tog-music" onclick="toggleSetting('music')"></div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">💥 Screen-Shake</span>
+      <div class="toggle on" id="tog-shake" onclick="toggleSetting('shake')"></div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">🔥 Partikel-Effekte</span>
+      <div class="toggle on" id="tog-particles" onclick="toggleSetting('particles')"></div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">🎤 Mikrofon-Empfindlichkeit</span>
+      <input type="range" min="1" max="5" value="3" id="micSensitivity" 
+             style="accent-color:#FF6B00;width:100px;" oninput="updateSensitivity(this.value)">
+      <span id="sensLabel" style="color:#FF6B00;font-weight:700;font-size:14px">3x</span>
+    </div>
+    <button class="modal-close" onclick="toggleSettings()">SCHLIESSEN</button>
+  </div>
+</div>
+
+<!-- SCREEN: HOME -->
+<div class="screen" id="screen-home">
+  <div class="logo-wrap">
+    <svg class="flame-deco left" viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 95 C10 80 5 65 15 50 C5 60 8 40 20 35 C15 45 25 42 22 28 C30 38 28 22 35 15 C33 28 42 25 40 38 C48 30 50 42 44 52 C55 40 52 62 40 72 C45 60 38 65 35 80 Z" fill="url(#fg)" opacity="0.85"/>
+      <defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="50%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs>
+    </svg>
+    <div class="logo">YELL TO HELL</div>
+    <svg class="flame-deco right" viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 95 C10 80 5 65 15 50 C5 60 8 40 20 35 C15 45 25 42 22 28 C30 38 28 22 35 15 C33 28 42 25 40 38 C48 30 50 42 44 52 C55 40 52 62 40 72 C45 60 38 65 35 80 Z" fill="url(#fg2)" opacity="0.85"/>
+      <defs><linearGradient id="fg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="50%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="logo-sub">WHO SCREAMS LOUDER?</div>
+
+  <div class="glass-card" style="margin-top:28px">
+    <label class="field-label" for="usernameInput">🔥 DEIN KRIEGSNAME</label>
+    <input class="name-input" id="usernameInput" type="text" maxlength="20"
+           placeholder="NoName!" autocomplete="off" spellcheck="false" />
+    <button class="btn-hell" onclick="startMatchmaking()" id="playBtn">
+      🔥 FIND A MATCH
+    </button>
+  </div>
+  <div style="margin-top:16px;color:#444;font-size:12px;letter-spacing:2px;text-transform:uppercase">
+    💬 Scream louder than your opponent — 10 seconds
+  </div>
+</div>
+
+<!-- SCREEN: AUDIO PERMISSION -->
+<div class="screen hidden" id="screen-audio">
+  <div class="perm-icon">🎤</div>
+  <div class="perm-title">MIC ERLAUBEN</div>
+  <div class="perm-desc">
+    YELL TO HELL braucht dein Mikrofon,<br>
+    damit wir messen können, wie laut du schreist.<br><br>
+    <strong style="color:#FF6B00">Drücke „Erlauben" wenn dein Browser fragt.</strong>
+  </div>
+  <button class="btn-hell" style="width:min(300px,85vw);margin-top:8px" onclick="requestMic()">
+    🎤 MIKROFON AKTIVIEREN
+  </button>
+  <div style="color:#444;font-size:12px;margin-top:12px">Kein Ton wird aufgezeichnet oder gespeichert</div>
+</div>
+
+<!-- SCREEN: MATCHMAKING -->
+<div class="screen hidden" id="screen-match">
+  <div class="match-orbit">
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring r2"></div>
+    <div class="orbit-icon">🔥</div>
+  </div>
+  <div class="match-status">SUCHE GEGNER</div>
+  <div class="match-dots"><span></span><span></span><span></span></div>
+  <div style="color:#444;font-size:13px;letter-spacing:2px;margin-top:8px" id="matchInfo">
+    Warte auf anderen Spieler...
+  </div>
+  <button class="btn-hell" style="width:min(260px,80vw);margin-top:12px;font-size:15px;padding:12px 20px" onclick="cancelMatch()">
+    ✕ ABBRECHEN
+  </button>
+</div>
+
+<!-- SCREEN: FOUND + COUNTDOWN -->
+<div class="screen hidden" id="screen-found">
+  <div style="font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:8px;color:#FF6B00;margin-bottom:4px">
+    🔥 MATCH GEFUNDEN 🔥
+  </div>
+  <div class="vs-banner">
+    <div class="player-card">
+      <div class="player-avatar">😤</div>
+      <div class="player-name-label" id="found-myname">ME</div>
+    </div>
+    <div class="vs-text">VS</div>
+    <div class="player-card">
+      <div class="player-avatar" style="background:linear-gradient(135deg,#7700CC,#CC00FF)">😈</div>
+      <div class="player-name-label" id="found-enemyname">???</div>
+    </div>
+  </div>
+  <div class="countdown-num" id="countdownNum">3</div>
+  <div style="font-family:'Bebas Neue',cursive;letter-spacing:6px;color:#444;font-size:16px">GET READY TO SCREAM</div>
+</div>
+
+<!-- SCREEN: BATTLE -->
+<div class="screen hidden" id="screen-battle">
+  <div class="battle-header">
+    <div style="text-align:left">
+      <div style="font-size:11px;letter-spacing:3px;color:#444;text-transform:uppercase">Du</div>
+      <div style="font-family:'Black Ops One',cursive;font-size:16px;color:#fff;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="battle-myname">ME</div>
+    </div>
+    <div style="text-align:center">
+      <div class="timer-display" id="timerDisp">10</div>
+      <div style="font-size:10px;letter-spacing:3px;color:#444;text-transform:uppercase">sekunden</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:11px;letter-spacing:3px;color:#444;text-transform:uppercase">Gegner</div>
+      <div style="font-family:'Black Ops One',cursive;font-size:16px;color:#fff;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="battle-enemyname">ENEMY</div>
+    </div>
+  </div>
+
+  <div class="battle-arena">
+    <div class="vol-player-wrap">
+      <div class="vol-label" id="my-label">ICH</div>
+      <div style="font-size:32px">😤</div>
+      <div class="vol-bar-track">
+        <div class="vol-bar-fill" id="myBar" style="height:0%"></div>
+      </div>
+      <div class="vol-percent" id="myPct">0%</div>
+      <div class="vol-name" id="my-volname">ME</div>
+      <div class="waveform" id="myWave">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+
+    <div class="vs-divider">
+      <div class="vs-small">VS</div>
+      <div style="font-size:28px;animation:flameDance 1s ease-in-out infinite alternate">🔥</div>
+    </div>
+
+    <div class="vol-player-wrap">
+      <div class="vol-label" id="enemy-label">GEGNER</div>
+      <div style="font-size:32px">😈</div>
+      <div class="vol-bar-track">
+        <div class="vol-bar-fill enemy" id="enemyBar" style="height:0%"></div>
+      </div>
+      <div class="vol-percent" id="enemyPct">0%</div>
+      <div class="vol-name" id="enemy-volname">ENEMY</div>
+      <div class="waveform" id="enemyWave">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scream-btn-wrap">
+    <button class="scream-btn" id="screamBtn" onmousedown="startScream()" onmouseup="stopScream()" ontouchstart="startScream(event)" ontouchend="stopScream(event)">
+      <span class="mic-icon">🎤</span>
+      <span id="screamBtnTxt">HALTEN & SCHREIEN</span>
+    </button>
+  </div>
+</div>
+
+<!-- SCREEN: RESULT -->
+<div class="screen hidden" id="screen-result">
+  <div class="crown-icon" id="resultIcon">🏆</div>
+  <div class="result-badge win" id="resultBadge">DU GEWINNST!</div>
+  <div class="result-scores">
+    <div class="score-card" id="myScoreCard">
+      <div class="score-val" id="myScore">0%</div>
+      <div class="score-name" id="myScoreName">Du</div>
+    </div>
+    <div style="font-family:'Black Ops One',cursive;font-size:22px;color:#333">VS</div>
+    <div class="score-card" id="enemyScoreCard">
+      <div class="score-val" id="enemyScore">0%</div>
+      <div class="score-name" id="enemyScoreName">Gegner</div>
+    </div>
+  </div>
+  <div class="result-sub" id="resultSub">LAUTESTER SCHREIER</div>
+  <div style="color:#444;font-size:12px;letter-spacing:2px">Nächste Runde in <span id="nextIn">5</span>s ...</div>
+</div>
+
+<div class="demo-tag" id="demoTag">🔥 DEMO MODE — OFFLINE</div>
+
+<script>
+// ============================================================
+//  YELL TO HELL — Main Game Script
+// ============================================================
+
+// --- STATE ---
+const state = {
+  screen: 'home',
+  username: '',
+  micGranted: false,
+  isSolo: true,    // true = demo mode (simulated enemy)
+  settings: { sfx: true, music: true, shake: true, particles: true },
+  micSens: 3,
+  audioCtx: null,
+  analyser: null,
+  micStream: null,
+  wsConnection: null,
+  myVolume: 0,
+  enemyVolume: 0,
+  myMaxVol: 0,
+  enemyMaxVol: 0,
+  battleTimer: null,
+  timerSec: 10,
+  isScreaming: false,
+  enemyName: 'ENEMY',
+  enemySimTimer: null,
+  musicNodes: {},
+  musicPlaying: false,
+  roomId: null,
+};
+
+// ============================================================
+//  AUDIO ENGINE
+// ============================================================
+function getOrCreateAudioCtx() {
+  if (!state.audioCtx) {
+    state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+  return state.audioCtx;
+}
+
+function playTone(freq, type='sine', dur=0.15, gain=0.3, delay=0) {
+  if (!state.settings.sfx) return;
+  try {
+    const ctx = getOrCreateAudioCtx();
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+    g.gain.setValueAtTime(0, ctx.currentTime + delay);
+    g.gain.linearRampToValueAtTime(gain, ctx.currentTime + delay + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + delay + dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(ctx.currentTime + delay);
+    osc.stop(ctx.currentTime + delay + dur + 0.01);
+  } catch(e) {}
+}
+
+function playSFX(name) {
+  if (!state.settings.sfx) return;
+  switch(name) {
+    case 'click':
+      playTone(800,'square',0.08,0.2);
+      playTone(1200,'square',0.06,0.1,0.06);
+      break;
+    case 'match':
+      [500,700,900,1200].forEach((f,i)=>playTone(f,'sawtooth',0.12,0.2,i*0.08));
+      break;
+    case 'countdown':
+      playTone(440,'square',0.1,0.3);
+      break;
+    case 'go':
+      [300,500,800,1200,1600].forEach((f,i)=>playTone(f,'sawtooth',0.2,0.4,i*0.06));
+      setTimeout(()=>playNoise(0.3,0.4),0);
+      break;
+    case 'scream':
+      playNoise(0.15, 0.08);
+      break;
+    case 'win':
+      [400,500,600,800,1000,1200].forEach((f,i)=>playTone(f,'triangle',0.3,0.35,i*0.1));
+      break;
+    case 'lose':
+      [400,300,200,150].forEach((f,i)=>playTone(f,'sawtooth',0.3,0.3,i*0.12));
+      break;
+    case 'timer':
+      playTone(880,'square',0.08,0.4);
+      break;
+  }
+}
+
+function playNoise(gain, dur) {
+  try {
+    const ctx = getOrCreateAudioCtx();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i=0; i<d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(gain, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    src.connect(g); g.connect(ctx.destination);
+    src.start(); src.stop(ctx.currentTime + dur + 0.01);
+  } catch(e) {}
+}
+
+// ===== BACKGROUND MUSIC =====
+function startBGMusic() {
+  if (!state.settings.music || state.musicPlaying) return;
+  try {
+    const ctx = getOrCreateAudioCtx();
+    state.musicPlaying = true;
+
+    // Hell bass drone
+    const bass = ctx.createOscillator();
+    const bassGain = ctx.createGain();
+    bass.type = 'sawtooth';
+    bass.frequency.value = 55;
+    bassGain.gain.value = 0.04;
+    bass.connect(bassGain); bassGain.connect(ctx.destination);
+    bass.start();
+
+    // Pulse beat
+    const beat = ctx.createOscillator();
+    const beatGain = ctx.createGain();
+    beat.type = 'square';
+    beat.frequency.value = 110;
+    beatGain.gain.value = 0;
+    beat.connect(beatGain); beatGain.connect(ctx.destination);
+    beat.start();
+
+    // Modulate beat
+    let t = 0;
+    const beatInterval = setInterval(() => {
+      if (!state.musicPlaying) { clearInterval(beatInterval); return; }
+      const now = ctx.currentTime;
+      const pattern = [1,0,0,1,0,1,0,0];
+      if (pattern[t % 8]) {
+        beatGain.gain.setValueAtTime(0.06, now);
+        beatGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+      }
+      t++;
+    }, 150);
+
+    // Melody arp
+    const melNotes = [220, 277, 330, 415, 330, 277];
+    let mi = 0;
+    const melInterval = setInterval(() => {
+      if (!state.musicPlaying) { clearInterval(melInterval); return; }
+      const ctx2 = getOrCreateAudioCtx();
+      const osc = ctx2.createOscillator();
+      const g = ctx2.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = melNotes[mi % melNotes.length];
+      g.gain.setValueAtTime(0.025, ctx2.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx2.currentTime + 0.3);
+      osc.connect(g); g.connect(ctx2.destination);
+      osc.start(); osc.stop(ctx2.currentTime + 0.35);
+      mi++;
+    }, 400);
+
+    state.musicNodes = { bass, bassGain, beatInterval, melInterval };
+  } catch(e) {}
+}
+
+function stopBGMusic() {
+  try {
+    state.musicPlaying = false;
+    if (state.musicNodes.bass) { state.musicNodes.bass.stop(); }
+    if (state.musicNodes.beatInterval) clearInterval(state.musicNodes.beatInterval);
+    if (state.musicNodes.melInterval) clearInterval(state.musicNodes.melInterval);
+    state.musicNodes = {};
+  } catch(e) {}
+}
+
+// ============================================================
+//  PARTICLES BG
+// ============================================================
+(function spawnEmbers() {
+  const bg = document.getElementById('particles-bg');
+  function spawn() {
+    if (!state.settings.particles) return;
+    const e = document.createElement('div');
+    e.classList.add('ember');
+    const size = Math.random() * 6 + 3;
+    e.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:-10px;
+      --drift:${(Math.random()-0.5)*120}px;
+      animation-duration:${3+Math.random()*5}s;
+      animation-delay:${Math.random()*2}s;
+      opacity:0;
+    `;
+    bg.appendChild(e);
+    setTimeout(() => e.remove(), 9000);
+  }
+  setInterval(spawn, 200);
+})();
+
+// ============================================================
+//  SCREEN TRANSITIONS
+// ============================================================
+function goTo(screenId) {
+  const curr = document.querySelector('.screen:not(.hidden)');
+  const next = document.getElementById('screen-' + screenId);
+  if (curr) {
+    curr.classList.add('slide-out-left');
+    setTimeout(() => { curr.classList.add('hidden'); curr.classList.remove('slide-out-left'); }, 380);
+  }
+  setTimeout(() => {
+    next.classList.remove('hidden');
+    next.classList.add('slide-in-right');
+    setTimeout(() => next.classList.remove('slide-in-right'), 400);
+  }, curr ? 300 : 0);
+  state.screen = screenId;
+}
+
+// ============================================================
+//  MATCHMAKING
+// ============================================================
+function startMatchmaking() {
+  playSFX('click');
+  getOrCreateAudioCtx(); // unlock audio on iOS
+  const val = document.getElementById('usernameInput').value.trim();
+  state.username = val || 'NoName!';
+
+  if (!state.micGranted) {
+    goTo('audio');
+    return;
+  }
+  proceedToMatchmaking();
+}
+
+function proceedToMatchmaking() {
+  goTo('match');
+  document.getElementById('matchInfo').textContent = 'Verbinde mit Server...';
+  tryConnectServer();
+}
+
+function cancelMatch() {
+  playSFX('click');
+  if (state.wsConnection) { state.wsConnection.close(); state.wsConnection = null; }
+  goTo('home');
+  startBGMusic();
+}
+
+// ============================================================
+//  WEBSOCKET SERVER CONNECTION
+// ============================================================
+const WS_URL = 'wss://yell-to-hell.up.railway.app'; // Change after deploy!
+
+function tryConnectServer() {
+  updateConnDot('disconnected');
+  try {
+    const ws = new WebSocket(WS_URL);
+    state.wsConnection = ws;
+
+    const timeout = setTimeout(() => {
+      ws.close();
+      fallbackSolo();
+    }, 5000);
+
+    ws.onopen = () => {
+      clearTimeout(timeout);
+      updateConnDot('connected');
+      document.getElementById('matchInfo').textContent = `Suche Gegner als ${state.username}...`;
+      ws.send(JSON.stringify({ type: 'join', name: state.username }));
+    };
+
+    ws.onmessage = (ev) => {
+      const msg = JSON.parse(ev.data);
+      handleServerMessage(msg);
+    };
+
+    ws.onerror = () => { clearTimeout(timeout); fallbackSolo(); };
+    ws.onclose  = () => { updateConnDot('disconnected'); };
+
+  } catch(e) {
+    fallbackSolo();
+  }
+}
+
+function handleServerMessage(msg) {
+  switch(msg.type) {
+    case 'matched':
+      state.isSolo = false;
+      state.enemyName = msg.enemyName;
+      state.roomId = msg.roomId;
+      showFoundScreen(msg.enemyName);
+      break;
+    case 'volume':
+      state.enemyVolume = msg.volume;
+      break;
+    case 'result':
+      // Server-confirmed result (optional)
+      break;
+  }
+}
+
+function sendVolume(vol) {
+  if (state.wsConnection && state.wsConnection.readyState === WebSocket.OPEN) {
+    state.wsConnection.send(JSON.stringify({ type: 'volume', volume: vol, roomId: state.roomId }));
+  }
+}
+
+function fallbackSolo() {
+  updateConnDot('disconnected');
+  state.isSolo = true;
+  document.getElementById('matchInfo').textContent = 'Server offline – Demo-Modus aktiviert';
+  document.getElementById('demoTag').style.display = 'block';
+  playSFX('match');
+  setTimeout(() => {
+    state.enemyName = randomEnemyName();
+    showFoundScreen(state.enemyName);
+  }, 1500);
+}
+
+function updateConnDot(status) {
+  const dot = document.getElementById('connDot');
+  dot.className = 'connection-dot ' + (status === 'connected' ? 'connected' : status === 'disconnected' ? 'disconnected' : '');
+}
+
+function randomEnemyName() {
+  const names = ['ScreamKing','HellVoice','ROAR_BOT','DemonScream','FireThroat','LoudDevil','ThunderMouth','BlazeRoar'];
+  return names[Math.floor(Math.random() * names.length)];
+}
+
+// ============================================================
+//  MIC
+// ============================================================
+async function requestMic() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    state.micStream = stream;
+    state.micGranted = true;
+    const ctx = getOrCreateAudioCtx();
+    const source = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0.4;
+    source.connect(analyser);
+    state.analyser = analyser;
+    playSFX('match');
+    goTo('match');
+    setTimeout(proceedToMatchmaking, 100);
+  } catch(e) {
+    alert('Mikrofon-Zugriff verweigert!\nBitte erlaube den Mikrofonzugriff in deinen Browser-Einstellungen.');
+  }
+}
+
+function getMicVolume() {
+  if (!state.analyser) return 0;
+  const data = new Uint8Array(state.analyser.frequencyBinCount);
+  state.analyser.getByteFrequencyData(data);
+  let sum = 0;
+  for (let i=0; i<data.length; i++) sum += data[i];
+  let avg = (sum / data.length) / 128; // 0–2
+  avg *= state.micSens;
+  return Math.min(avg, 1);
+}
+
+// ============================================================
+//  FOUND + COUNTDOWN
+// ============================================================
+function showFoundScreen(enemyName) {
+  playSFX('match');
+  document.getElementById('found-myname').textContent = state.username;
+  document.getElementById('found-enemyname').textContent = enemyName;
+  document.getElementById('battle-myname').textContent = state.username;
+  document.getElementById('battle-enemyname').textContent = enemyName;
+  document.getElementById('my-volname').textContent = state.username;
+  document.getElementById('enemy-volname').textContent = enemyName;
+  stopBGMusic();
+  goTo('found');
+  startCountdown();
+}
+
+function startCountdown() {
+  let n = 3;
+  const el = document.getElementById('countdownNum');
+  el.textContent = n;
+  playSFX('countdown');
+
+  const iv = setInterval(() => {
+    n--;
+    if (n === 0) {
+      clearInterval(iv);
+      el.textContent = '🔥';
+      playSFX('go');
+      addScreenFlash();
+      setTimeout(startBattle, 600);
+    } else {
+      playSFX('countdown');
+      el.textContent = n;
+      // Re-trigger animation
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = 'countDown 1s ease-in-out';
+    }
+  }, 1000);
+}
+
+// ============================================================
+//  BATTLE
+// ============================================================
+function startBattle() {
+  goTo('battle');
+  state.myMaxVol = 0;
+  state.enemyMaxVol = 0;
+  state.timerSec = 10;
+  updateTimerDisplay(10);
+
+  if (state.isSolo) startEnemySimulation();
+
+  state.battleTimer = setInterval(battleTick, 1000);
+  startVolumePoll();
+}
+
+let volPollId = null;
+function startVolumePoll() {
+  function poll() {
+    if (state.screen !== 'battle') return;
+    const raw = getMicVolume();
+    const vol = state.isScreaming ? raw : raw * 0.3;
+    state.myVolume = vol;
+    state.myMaxVol = Math.max(state.myMaxVol, vol);
+    sendVolume(vol);
+    updateMyBar(vol);
+
+    updateEnemyBar(state.enemyVolume);
+    state.enemyMaxVol = Math.max(state.enemyMaxVol, state.enemyVolume);
+
+    // Dynamic effects
+    if (vol > 0.6) triggerScreamEffect(vol);
+
+    volPollId = requestAnimationFrame(poll);
+  }
+  poll();
+}
+
+function battleTick() {
+  state.timerSec--;
+  updateTimerDisplay(state.timerSec);
+  if (state.timerSec <= 3) playSFX('timer');
+  if (state.timerSec <= 0) {
+    clearInterval(state.battleTimer);
+    cancelAnimationFrame(volPollId);
+    stopEnemySimulation();
+    setTimeout(showResult, 400);
+  }
+}
+
+function updateTimerDisplay(n) {
+  const el = document.getElementById('timerDisp');
+  el.textContent = n;
+  el.classList.toggle('urgent', n <= 3);
+}
+
+function updateMyBar(vol) {
+  const pct = Math.round(vol * 100);
+  const el = document.getElementById('myBar');
+  el.style.height = pct + '%';
+  document.getElementById('myPct').textContent = pct + '%';
+  document.getElementById('my-label').classList.toggle('active', vol > 0.05);
+
+  // Wave animation
+  const wave = document.getElementById('myWave');
+  wave.classList.toggle('active', vol > 0.05);
+  wave.querySelectorAll('.wave-bar').forEach((b,i) => {
+    const h = Math.max(4, vol * 36 * (0.6 + Math.random() * 0.8));
+    b.style.setProperty('--h', h + 'px');
+    b.style.height = h + 'px';
+  });
+}
+
+function updateEnemyBar(vol) {
+  const pct = Math.round(vol * 100);
+  document.getElementById('enemyBar').style.height = pct + '%';
+  document.getElementById('enemyPct').textContent = pct + '%';
+  document.getElementById('enemy-label').classList.toggle('active', vol > 0.05);
+
+  const wave = document.getElementById('enemyWave');
+  wave.classList.toggle('active', vol > 0.05);
+  wave.querySelectorAll('.wave-bar').forEach((b) => {
+    const h = Math.max(4, vol * 36 * (0.6 + Math.random() * 0.8));
+    b.style.setProperty('--h', h + 'px');
+    b.style.height = h + 'px';
+  });
+}
+
+// ===== SCREAM BUTTON =====
+function startScream(e) {
+  if (e) e.preventDefault();
+  state.isScreaming = true;
+  document.getElementById('screamBtn').style.background = 'linear-gradient(135deg, #FF6B00, #FFB800)';
+  document.getElementById('screamBtnTxt').textContent = '🔥 SCHREI!!!';
+  playSFX('scream');
+}
+function stopScream(e) {
+  if (e) e.preventDefault();
+  state.isScreaming = false;
+  document.getElementById('screamBtn').style.background = 'linear-gradient(135deg, #FF1500, #FF6B00)';
+  document.getElementById('screamBtnTxt').textContent = 'HALTEN & SCHREIEN';
+}
+
+// ===== ENEMY SIMULATION =====
+let enemySimIntervalId = null;
+function startEnemySimulation() {
+  let phase = 0;
+  enemySimIntervalId = setInterval(() => {
+    phase += 0.15;
+    const base = 0.3 + 0.25 * Math.sin(phase);
+    const spike = Math.random() > 0.85 ? Math.random() * 0.4 : 0;
+    state.enemyVolume = Math.min(1, base + spike);
+    if (spike > 0.2) playEnemyScreamSound();
+  }, 80);
+}
+
+function stopEnemySimulation() {
+  if (enemySimIntervalId) { clearInterval(enemySimIntervalId); enemySimIntervalId = null; }
+  state.enemyVolume = 0;
+}
+
+function playEnemyScreamSound() {
+  if (!state.settings.sfx) return;
+  try {
+    const ctx = getOrCreateAudioCtx();
+    const dur = 0.2 + Math.random() * 0.3;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(300 + Math.random()*300, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150 + Math.random()*100, ctx.currentTime + dur);
+    g.gain.setValueAtTime(0.06, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + dur + 0.05);
+  } catch(e) {}
+}
+
+// ============================================================
+//  EFFECTS
+// ============================================================
+function triggerScreamEffect(vol) {
+  if (Math.random() > 0.92) {
+    spawnFireBurst();
+    if (state.settings.shake && vol > 0.75) document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 400);
+  }
+  if (vol > 0.85 && Math.random() > 0.95) {
+    showRoarText();
+    addScreenFlash();
+  }
+}
+
+function spawnFireBurst() {
+  if (!state.settings.particles) return;
+  const emojis = ['🔥','💥','⚡','🌋','😤'];
+  const el = document.createElement('div');
+  el.className = 'fire-burst';
+  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = (20 + Math.random() * 60) + '%';
+  el.style.top  = (30 + Math.random() * 30) + '%';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+function addScreenFlash() {
+  const el = document.createElement('div');
+  el.className = 'screen-flash';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 500);
+}
+
+function showRoarText() {
+  const words = ['HELL YEAH!','UNLEASH IT!','SCREAM!','LOUDER!!!','🔥🔥🔥','INSANE!','BEAST!'];
+  const el = document.createElement('div');
+  el.className = 'roar-text';
+  el.textContent = words[Math.floor(Math.random() * words.length)];
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+
+// ============================================================
+//  RESULT
+// ============================================================
+function showResult() {
+  const myPct   = Math.round(state.myMaxVol * 100);
+  const enmPct  = Math.round(state.enemyMaxVol * 100);
+  const win = myPct > enmPct;
+  const draw = myPct === enmPct;
+
+  document.getElementById('myScore').textContent = myPct + '%';
+  document.getElementById('enemyScore').textContent = enmPct + '%';
+  document.getElementById('myScoreName').textContent = state.username;
+  document.getElementById('enemyScoreName').textContent = state.enemyName;
+
+  const badge = document.getElementById('resultBadge');
+  const icon  = document.getElementById('resultIcon');
+  const sub   = document.getElementById('resultSub');
+
+  const myCard    = document.getElementById('myScoreCard');
+  const enemyCard = document.getElementById('enemyScoreCard');
+  myCard.classList.remove('winner'); enemyCard.classList.remove('winner');
+
+  if (draw) {
+    badge.textContent = 'UNENTSCHIEDEN!';
+    badge.className = 'result-badge draw';
+    icon.textContent = '🤝';
+    sub.textContent = 'GLEICHSTAND – REMATCH!';
+    playSFX('match');
+  } else if (win) {
+    badge.textContent = 'DU GEWINNST!';
+    badge.className = 'result-badge win';
+    icon.textContent = '🏆';
+    sub.textContent = 'LAUTESTER SCHREIER';
+    myCard.classList.add('winner');
+    playSFX('win');
+    for(let i=0;i<8;i++) setTimeout(spawnFireBurst, i*120);
+    addScreenFlash();
+  } else {
+    badge.textContent = 'DU VERLIERST!';
+    badge.className = 'result-badge lose';
+    icon.textContent = '💀';
+    sub.textContent = `${state.enemyName} SCHRIE LAUTER`;
+    enemyCard.classList.add('winner');
+    playSFX('lose');
+  }
+
+  goTo('result');
+
+  let next = 5;
+  document.getElementById('nextIn').textContent = next;
+  const ni = setInterval(() => {
+    next--;
+    document.getElementById('nextIn').textContent = next;
+    if (next <= 0) {
+      clearInterval(ni);
+      rematch();
+    }
+  }, 1000);
+}
+
+function rematch() {
+  state.myVolume = 0;
+  state.enemyVolume = 0;
+  state.isScreaming = false;
+  updateMyBar(0); updateEnemyBar(0);
+  document.getElementById('timerDisp').textContent = '10';
+  document.getElementById('timerDisp').classList.remove('urgent');
+  goTo('match');
+  document.getElementById('matchInfo').textContent = `Suche neuen Gegner...`;
+  if (state.isSolo) {
+    setTimeout(() => {
+      state.enemyName = randomEnemyName();
+      showFoundScreen(state.enemyName);
+    }, 2000);
+  } else {
+    tryConnectServer();
+  }
+}
+
+// ============================================================
+//  SETTINGS
+// ============================================================
+function toggleSettings() {
+  document.getElementById('settingsOverlay').classList.toggle('open');
+}
+function toggleSetting(key) {
+  state.settings[key] = !state.settings[key];
+  document.getElementById('tog-' + key).classList.toggle('on', state.settings[key]);
+  if (key === 'music') {
+    state.settings.music ? startBGMusic() : stopBGMusic();
+  }
+}
+function updateSensitivity(val) {
+  state.micSens = parseInt(val);
+  document.getElementById('sensLabel').textContent = val + 'x';
+}
+
+// ============================================================
+//  RIPPLE EFFECT ON BUTTONS
+// ============================================================
+document.querySelectorAll('.btn-hell, .scream-btn').forEach(btn => {
+  btn.addEventListener('pointerdown', (e) => {
+    const r = document.createElement('span');
+    r.className = 'btn-ripple';
+    const size = Math.max(btn.clientWidth, btn.clientHeight) * 2;
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.offsetX - size/2}px;top:${e.offsetY - size/2}px;`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 700);
+  });
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+window.addEventListener('load', () => {
+  // Start music on first interaction
+  document.addEventListener('pointerdown', () => {
+    if (state.screen === 'home' || state.screen === 'audio') startBGMusic();
+  }, { once: true });
+  document.getElementById('demoTag').style.display = 'none';
+  // Hide settings on outside click
+  document.getElementById('settingsOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) toggleSettings();
+  });
+});
+</script>
+</body>
+</html>
