@@ -2,1081 +2,1060 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>YELL TO HELL 🔥</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --r:#FF1500;--o:#FF6B00;--y:#FFB800;--blk:#030303;--card:#0d0d0d;
-  --ash:#181818;--smoke:#222;--dim:#555;--txt:#fff;
-  --glow-r:0 0 20px #FF1500,0 0 60px #FF150040;
-  --glow-o:0 0 20px #FF6B00,0 0 60px #FF6B0040;
+  --r:#FF1500;--o:#FF6B00;--y:#FFB800;
+  --blk:#020202;--c1:#0a0a0a;--c2:#111;--c3:#1a1a1a;
+  --dim:#444;--mid:#777;--txt:#fff;
+  --pr:linear-gradient(135deg,#FF1500,#FF6B00);
+  --py:linear-gradient(135deg,#FF6B00,#FFB800);
 }
-html,body{width:100%;height:100%;background:var(--blk);color:var(--txt);font-family:'Inter',sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--blk);color:var(--txt);font-family:'Inter',sans-serif;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
-/* ═══ PARTICLES ═══ */
+/* ══ SCANLINE OVERLAY ══ */
+body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0px,rgba(0,0,0,.03) 1px,transparent 1px,transparent 2px);animation:scanMove 8s linear infinite}
+@keyframes scanMove{to{background-position:0 100px}}
+
+/* ══ PARTICLES ══ */
 #pbg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.ember{position:absolute;border-radius:50%;background:radial-gradient(circle,#FFB800 0%,#FF4500 55%,transparent 100%);animation:riseUp linear infinite;pointer-events:none}
-@keyframes riseUp{0%{transform:translateY(0) translateX(0) scale(1);opacity:0}8%{opacity:1}88%{opacity:.6}100%{transform:translateY(-115vh) translateX(var(--drift)) scale(.2);opacity:0}}
+.ember{position:absolute;border-radius:50%;pointer-events:none;animation:riseUp linear infinite}
+@keyframes riseUp{0%{opacity:0;transform:translateY(0) translateX(0) scale(1)}5%{opacity:1}90%{opacity:.5}100%{opacity:0;transform:translateY(-120vh) translateX(var(--d)) scale(.1)}}
 
-/* ═══ SCREENS ═══ */
-.screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.screen.hidden{opacity:0;pointer-events:none;transform:scale(.97);transition:opacity .3s,transform .3s}
-@keyframes sIn{from{opacity:0;transform:translateX(65px) scale(1.03)}to{opacity:1;transform:none}}
-@keyframes sOut{to{opacity:0;transform:translateX(-65px) scale(.94)}}
-.s-in{animation:sIn .38s cubic-bezier(.22,1,.36,1) forwards}
-.s-out{animation:sOut .33s ease forwards}
+/* ══ SCREENS ══ */
+.screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.screen.hidden{display:none}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes fadeSlideOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-20px) scale(.98)}}
+.screen.entering{animation:fadeSlideIn .4s cubic-bezier(.22,1,.36,1) forwards}
+.screen.leaving{animation:fadeSlideOut .3s ease forwards}
 
-/* ═══ LOGO ═══ */
-.logo-wrap{position:relative;text-align:center;animation:lPulse 2.6s ease-in-out infinite}
-@keyframes lPulse{0%,100%{filter:drop-shadow(0 0 16px #FF1500) drop-shadow(0 0 48px #FF150040)}50%{filter:drop-shadow(0 0 34px #FF6B00) drop-shadow(0 0 88px #FF6B0040)}}
-.logo{font-family:'Black Ops One',cursive;font-size:clamp(42px,9vw,90px);letter-spacing:6px;background:linear-gradient(180deg,#fff 0%,#FFB800 26%,#FF6B00 56%,#FF1500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.logo-sub{font-family:'Bebas Neue',cursive;font-size:clamp(11px,2vw,17px);letter-spacing:15px;color:var(--o);opacity:.7;margin-top:5px;text-transform:uppercase}
-.fl-svg{position:absolute;width:50px;top:50%;opacity:.6}
-.fl-l{left:-60px;animation:flL 1.3s ease-in-out infinite alternate}
-.fl-r{right:-60px;animation:flR 1.3s ease-in-out infinite alternate}
-@keyframes flL{from{transform:translateY(-50%) scaleX(-1) scaleY(1) rotate(-4deg)}to{transform:translateY(-50%) scaleX(-1) scaleY(1.2) rotate(4deg)}}
-@keyframes flR{from{transform:translateY(-50%) scaleY(1) rotate(4deg)}to{transform:translateY(-50%) scaleY(1.2) rotate(-4deg)}}
+/* ══ LOGO ══ */
+.logo-outer{position:relative;text-align:center;margin-bottom:4px}
+.logo{font-family:'Black Ops One',cursive;font-size:clamp(48px,11vw,96px);letter-spacing:4px;line-height:.9;background:linear-gradient(180deg,#fff 0%,#FFD700 20%,#FF6B00 55%,#FF1500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1}
+.logo-glow{position:absolute;inset:0;font-family:'Black Ops One',cursive;font-size:clamp(48px,11vw,96px);letter-spacing:4px;line-height:.9;color:transparent;text-shadow:0 0 40px rgba(255,107,0,.5),0 0 80px rgba(255,21,0,.3);-webkit-text-stroke:0;filter:blur(8px);z-index:0;animation:logoBreath 3s ease-in-out infinite}
+@keyframes logoBreath{0%,100%{opacity:.6;filter:blur(8px)}50%{opacity:1;filter:blur(12px)}}
+.logo-txt{font-family:'Black Ops One',cursive;font-size:clamp(48px,11vw,96px);letter-spacing:4px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:transparent;-webkit-text-stroke:1px rgba(255,107,0,.3)}
+.logo-sub{font-family:'Bebas Neue',cursive;font-size:clamp(10px,1.8vw,15px);letter-spacing:18px;color:var(--o);opacity:.6;margin-top:8px;text-transform:uppercase}
 
-/* ═══ CARD ═══ */
-.card{background:linear-gradient(135deg,rgba(255,69,0,.07) 0%,rgba(10,10,10,.97) 100%);border:1px solid rgba(255,107,0,.25);border-radius:20px;padding:30px 36px;width:min(440px,93vw);box-shadow:0 0 60px rgba(255,21,0,.1),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(16px)}
+/* ══ FLAME SVG ══ */
+.flame-side{position:absolute;width:44px;top:50%;opacity:.5}
+.flame-side.l{left:-55px;animation:flameL 1.4s ease-in-out infinite alternate}
+.flame-side.r{right:-55px;animation:flameR 1.4s ease-in-out infinite alternate}
+@keyframes flameL{from{transform:translateY(-50%) scaleX(-1) scaleY(1) rotate(-5deg)}to{transform:translateY(-50%) scaleX(-1) scaleY(1.22) rotate(5deg)}}
+@keyframes flameR{from{transform:translateY(-50%) scaleY(1) rotate(5deg)}to{transform:translateY(-50%) scaleY(1.22) rotate(-5deg)}}
 
-/* ═══ AVATAR ═══ */
-.av-grid{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
-.av-btn{font-size:30px;background:rgba(255,255,255,.04);border:2px solid rgba(255,107,0,.18);border-radius:11px;padding:7px 11px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;line-height:1}
-.av-btn:hover{background:rgba(255,107,0,.1);transform:scale(1.12)}
-.av-btn.sel{border-color:var(--o);background:rgba(255,107,0,.16);box-shadow:0 0 14px rgba(255,107,0,.35)}
+/* ══ CARDS ══ */
+.card{background:linear-gradient(145deg,rgba(255,69,0,.06),rgba(8,8,8,.98));border:1px solid rgba(255,107,0,.2);border-radius:24px;padding:28px 32px;width:min(460px,95vw);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,0,.5),transparent)}
+.card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,21,0,.3),transparent)}
 
-/* ═══ INPUTS ═══ */
-.flabel{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--o);text-transform:uppercase;margin-bottom:7px;display:block}
-.ninput{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,107,0,.25);border-radius:10px;padding:12px 16px;font-size:17px;font-weight:700;color:#fff;outline:none;transition:border-color .3s,box-shadow .3s;font-family:'Inter',sans-serif;letter-spacing:1px}
-.ninput:focus{border-color:var(--o);box-shadow:0 0 24px rgba(255,107,0,.25)}
-.ninput::placeholder{color:#2a2a2a}
+/* ══ AVATAR GRID ══ */
+.av-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin-bottom:18px}
+.av-btn{aspect-ratio:1;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,107,0,.15);border-radius:10px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;overflow:hidden}
+.av-btn::before{content:'';position:absolute;inset:0;background:var(--pr);opacity:0;transition:opacity .2s}
+.av-btn span{position:relative;z-index:1}
+.av-btn:hover{border-color:rgba(255,107,0,.5);transform:scale(1.1)}
+.av-btn.sel{border-color:var(--o);box-shadow:0 0 16px rgba(255,107,0,.4),inset 0 0 12px rgba(255,107,0,.1)}
+.av-btn.sel::before{opacity:.15}
 
-/* ═══ STREAK BADGE ═══ */
-.streak-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(255,184,0,.13),rgba(255,107,0,.07));border:1px solid rgba(255,184,0,.32);border-radius:30px;padding:7px 16px;font-family:'Black Ops One',cursive;font-size:14px;color:var(--y);letter-spacing:2px;margin-top:12px}
-.sf{animation:sfB .55s ease-in-out infinite alternate}
-@keyframes sfB{from{transform:scale(1)}to{transform:scale(1.25)}}
+/* ══ INPUT ══ */
+.flabel{font-size:9px;font-weight:700;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:6px;display:block}
+.ninput{width:100%;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,107,0,.2);border-radius:12px;padding:13px 16px;font-size:16px;font-weight:700;color:#fff;outline:none;transition:all .3s;font-family:'Inter',sans-serif;letter-spacing:1px}
+.ninput:focus{border-color:var(--o);background:rgba(255,107,0,.05);box-shadow:0 0 0 3px rgba(255,107,0,.1)}
+.ninput::placeholder{color:#252525}
 
-/* ═══ BUTTONS ═══ */
-.btn{position:relative;overflow:hidden;background:linear-gradient(135deg,#FF1500,#FF6B00);border:none;border-radius:13px;color:#fff;font-family:'Black Ops One',cursive;font-size:19px;letter-spacing:3px;padding:15px 36px;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 32px rgba(255,21,0,.42),0 0 0 1px rgba(255,107,0,.32);text-transform:uppercase;width:100%;margin-top:18px}
-.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13) 0%,transparent 55%);pointer-events:none}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 46px rgba(255,21,0,.62),0 0 0 1px rgba(255,107,0,.5)}
+/* ══ STREAK ══ */
+.streak-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,184,0,.08);border:1px solid rgba(255,184,0,.25);border-radius:100px;padding:6px 14px;font-family:'Black Ops One',cursive;font-size:13px;color:var(--y);letter-spacing:2px;margin-top:10px}
+.sf{display:inline-block;animation:sfB .6s ease-in-out infinite alternate}
+@keyframes sfB{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.3) rotate(5deg)}}
+
+/* ══ BUTTONS ══ */
+.btn{position:relative;overflow:hidden;background:var(--pr);border:none;border-radius:14px;color:#fff;font-family:'Black Ops One',cursive;font-size:18px;letter-spacing:3px;padding:15px 32px;cursor:pointer;width:100%;margin-top:14px;text-transform:uppercase;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 30px rgba(255,21,0,.35),0 0 0 1px rgba(255,107,0,.25)}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .4s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 48px rgba(255,21,0,.55),0 0 0 1px rgba(255,107,0,.4)}
+.btn:hover::before{left:100%}
 .btn:active{transform:scale(.97)}
-.btn.sec{background:rgba(255,255,255,.05);box-shadow:none;border:1px solid rgba(255,107,0,.22);font-size:14px;padding:10px 18px;margin-top:9px;color:#777;letter-spacing:2px}
-.btn.sec:hover{background:rgba(255,107,0,.1);color:#fff}
-.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.26);transform:scale(0);animation:ripp .55s linear;pointer-events:none}
-@keyframes ripp{to{transform:scale(4.5);opacity:0}}
+.btn.ghost{background:transparent;box-shadow:none;border:1px solid rgba(255,107,0,.2);color:var(--mid);font-size:13px;padding:10px 20px;margin-top:8px;letter-spacing:2px}
+.btn.ghost:hover{border-color:rgba(255,107,0,.4);color:#fff;background:rgba(255,107,0,.06)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.22);transform:scale(0);animation:rippleOut .6s linear;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(5);opacity:0}}
 
-/* ═══ MATCHMAKING ═══ */
-.orbit-wrap{position:relative;width:168px;height:168px;display:flex;align-items:center;justify-content:center;margin:16px auto}
-.oring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--r);border-right-color:var(--o);animation:orb 1.5s linear infinite}
-.oring.r2{inset:18px;border-top-color:transparent;border-bottom-color:var(--y);animation:orb 2.2s linear infinite reverse}
-.oring.r3{inset:36px;border-left-color:var(--r);border-top-color:transparent;animation:orb 1.1s linear infinite}
-@keyframes orb{to{transform:rotate(360deg)}}
-.oicon{font-size:52px;filter:drop-shadow(0 0 14px #FF6B00);animation:oPulse 1.1s ease-in-out infinite}
-@keyframes oPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
-.mstatus{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:7px;color:var(--o);animation:blnk 1.4s ease-in-out infinite;margin-top:16px}
-@keyframes blnk{0%,100%{opacity:1}50%{opacity:.3}}
-.mdots{margin-top:8px}
-.mdots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--r);margin:0 3px;animation:dB .9s ease-in-out infinite}
+/* ══ MATCH SCREEN ══ */
+.orbit-sys{position:relative;width:180px;height:180px;margin:0 auto 24px}
+.oring{position:absolute;inset:0;border-radius:50%;border:1.5px solid transparent;animation:spin 2s linear infinite}
+.oring:nth-child(1){border-top-color:#FF1500;border-right-color:#FF6B00;animation-duration:1.6s}
+.oring:nth-child(2){inset:20px;border-bottom-color:#FFB800;border-left-color:#FF6B00;animation-duration:2.4s;animation-direction:reverse}
+.oring:nth-child(3){inset:40px;border-top-color:#FF1500;border-left-color:transparent;animation-duration:1s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;filter:drop-shadow(0 0 16px #FF6B00);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.mstatus{font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:8px;color:var(--o);text-align:center;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.mdots{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.mdots span{width:8px;height:8px;border-radius:50%;background:var(--r);animation:dotUp .9s ease-in-out infinite}
 .mdots span:nth-child(2){animation-delay:.2s}
 .mdots span:nth-child(3){animation-delay:.4s}
-@keyframes dB{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes dotUp{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-10px);opacity:1}}
 
-/* ═══ FOUND ═══ */
-.vs-banner{display:flex;align-items:center;gap:16px;width:min(560px,93vw);margin:14px 0}
-.pcard{flex:1;text-align:center;background:rgba(255,21,0,.06);border:1px solid rgba(255,107,0,.22);border-radius:14px;padding:18px 8px}
-.pav{font-size:44px;margin-bottom:8px;animation:pavPop .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes pavPop{from{transform:scale(.3)}to{transform:scale(1)}}
-.pname{font-family:'Black Ops One',cursive;font-size:16px;word-break:break-all;letter-spacing:1px}
-.vs-txt{font-family:'Black Ops One',cursive;font-size:44px;color:var(--r);filter:drop-shadow(0 0 22px #FF1500);animation:vsP .85s ease-in-out infinite alternate;flex-shrink:0}
-@keyframes vsP{from{transform:scale(1)}to{transform:scale(1.18)}}
-.cdn{font-family:'Black Ops One',cursive;font-size:clamp(78px,18vw,128px);background:linear-gradient(180deg,#fff,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:cdA 1s ease-in-out}
-@keyframes cdA{0%{transform:scale(1.5);opacity:0}40%{transform:scale(.88);opacity:1}100%{transform:scale(1)}}
+/* ══ FOUND SCREEN ══ */
+.found-label{font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:10px;color:var(--o);margin-bottom:16px;text-align:center}
+.vs-wrap{display:flex;align-items:center;gap:12px;width:min(560px,94vw)}
+.pcard{flex:1;background:rgba(255,21,0,.06);border:1px solid rgba(255,107,0,.2);border-radius:16px;padding:20px 12px;text-align:center;position:relative;overflow:hidden}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,0,.4),transparent)}
+.pcard-av{font-size:48px;margin-bottom:10px;display:block;animation:avPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes avPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.pcard-name{font-family:'Black Ops One',cursive;font-size:15px;letter-spacing:1px;word-break:break-all}
+.vs-center{font-family:'Black Ops One',cursive;font-size:52px;color:var(--r);filter:drop-shadow(0 0 24px #FF1500) drop-shadow(0 0 48px #FF150066);animation:vsPop .8s ease-in-out infinite alternate;flex-shrink:0}
+@keyframes vsPop{from{transform:scale(1)}to{transform:scale(1.2)}}
+.cdn-num{font-family:'Black Ops One',cursive;font-size:clamp(90px,20vw,140px);background:linear-gradient(180deg,#fff,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;animation:cdPop 1s cubic-bezier(.22,1,.36,1)}
+@keyframes cdPop{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
+.ready-txt{font-family:'Bebas Neue',cursive;letter-spacing:8px;color:var(--dim);font-size:14px;text-align:center;margin-top:8px}
 
-/* ═══ BATTLE ═══ */
-#screen-battle{justify-content:space-between;padding:14px 14px 10px}
-.bhdr{width:100%;display:flex;align-items:center;justify-content:space-between;padding:0 6px}
-.bname-wrap{max-width:110px}
-.bname{font-family:'Black Ops One',cursive;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.blabel{font-size:9px;letter-spacing:3px;color:#2a2a2a;text-transform:uppercase;margin-bottom:2px}
-.timer{font-family:'Black Ops One',cursive;font-size:clamp(32px,7vw,50px);color:var(--y);text-shadow:0 0 24px #FFB800;transition:color .3s,text-shadow .3s;min-width:68px;text-align:center}
-.timer.urg{color:var(--r)!important;text-shadow:0 0 32px #FF1500!important;animation:tSh .13s infinite}
-@keyframes tSh{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+/* ══ BATTLE ══ */
+#screen-battle{justify-content:flex-start;padding:12px 12px 8px;gap:0}
+.battle-top{width:100%;display:flex;align-items:center;justify-content:space-between;padding:0 4px;margin-bottom:8px}
+.bname-blk{max-width:120px}
+.bsmall{font-size:8px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:3px}
+.bname{font-family:'Black Ops One',cursive;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:1px}
 
-/* ═══ ARENA ═══ */
-.arena{display:flex;align-items:flex-end;justify-content:center;gap:20px;width:100%;flex:1;padding:6px 14px}
-.vpwrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;max-width:170px}
-.vlabel{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:3px;color:var(--dim);transition:color .3s}
-.vlabel.act{color:var(--o)}
+/* TIMER */
+.timer-blk{text-align:center}
+.timer{font-family:'Black Ops One',cursive;font-size:clamp(36px,8vw,56px);color:var(--y);transition:color .3s,text-shadow .3s;line-height:1;text-shadow:0 0 20px rgba(255,184,0,.5)}
+.timer.danger{color:var(--r)!important;text-shadow:0 0 30px rgba(255,21,0,.8)!important;animation:timerDanger .12s infinite}
+@keyframes timerDanger{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.timer-lbl{font-size:8px;letter-spacing:4px;color:var(--dim);text-transform:uppercase}
 
-/* dB Meter */
-.vtrack{width:60px;height:250px;background:rgba(255,255,255,.035);border-radius:8px;border:1px solid rgba(255,107,0,.15);position:relative;overflow:hidden}
-.vfill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#FFB800 0%,#FF6B00 35%,#FF1500 100%);border-radius:8px;transition:height .04s linear;box-shadow:0 0 22px rgba(255,107,0,.4)}
-.vfill.en{background:linear-gradient(180deg,#CC00FF,#7700CC);box-shadow:0 0 22px rgba(150,0,255,.4)}
-/* dB tick marks */
-.tick{position:absolute;right:0;left:0;height:1px;background:rgba(255,255,255,.1)}
-.tick-lbl{position:absolute;right:3px;font-size:8px;color:rgba(255,255,255,.25);transform:translateY(50%);letter-spacing:.4px;font-weight:700}
-/* peak indicator */
-.peak-line{position:absolute;left:0;right:0;height:2px;background:#FFB800;box-shadow:0 0 6px #FFB800;transition:bottom .1s ease-out}
+/* ══ ARENA ══ */
+.arena{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:16px;width:100%;padding:4px 8px;min-height:0}
+.fighter{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;max-width:160px}
+.f-label{font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:3px;color:var(--dim);transition:color .25s}
+.f-label.loud{color:var(--o)}
+.f-av{font-size:28px;line-height:1;transition:transform .1s;filter:drop-shadow(0 0 0px transparent);transition:filter .1s}
+.f-av.screaming{animation:avScream .15s ease-in-out infinite alternate;filter:drop-shadow(0 0 12px #FF6B00)}
+@keyframes avScream{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.15) rotate(3deg)}}
 
-.vdb{font-family:'Black Ops One',cursive;font-size:20px;color:#fff;letter-spacing:1px;transition:color .2s}
-.vdb.hot{color:var(--y);text-shadow:0 0 18px #FFB800;animation:dbGlow .25s ease-in-out infinite}
-@keyframes dbGlow{0%,100%{text-shadow:0 0 10px #FFB800}50%{text-shadow:0 0 36px #FFB800,0 0 70px #FF6B00}}
-.vname{font-size:11px;color:var(--dim);max-width:120px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* DB METER */
+.meter-wrap{position:relative;width:58px;flex:1;min-height:200px;max-height:280px}
+.meter-bg{position:absolute;inset:0;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid rgba(255,107,0,.12)}
+.meter-fill{position:absolute;bottom:0;left:1px;right:1px;border-radius:7px;transition:height .05s linear}
+.meter-fill.me{background:linear-gradient(180deg,#FFD700 0%,#FF6B00 40%,#FF1500 100%);box-shadow:0 0 24px rgba(255,107,0,.35)}
+.meter-fill.en{background:linear-gradient(180deg,#CC00FF 0%,#8800CC 50%,#4400AA 100%);box-shadow:0 0 24px rgba(150,0,255,.35)}
+/* CLIPPING RED ZONE */
+.meter-clip{position:absolute;top:0;left:1px;right:1px;height:12%;border-radius:7px 7px 0 0;background:rgba(255,21,0,.15);border-bottom:1px solid rgba(255,21,0,.3)}
+/* PEAK HOLD LINE */
+.peak-hold{position:absolute;left:0;right:0;height:2px;border-radius:2px;transition:bottom .15s ease-out}
+.peak-hold.me{background:#FFD700;box-shadow:0 0 8px #FFD700}
+.peak-hold.en{background:#CC00FF;box-shadow:0 0 8px #CC00FF}
+/* TICK MARKS */
+.tick-mark{position:absolute;right:0;width:10px;height:1px;background:rgba(255,255,255,.12)}
+.tick-label{position:absolute;right:12px;font-size:8px;color:rgba(255,255,255,.2);font-weight:700;transform:translateY(50%);letter-spacing:.3px}
 
-/* Waveform */
-.wform{display:flex;align-items:center;gap:2px;height:34px;padding:0 5px}
-.wb{width:4px;border-radius:2px;background:linear-gradient(180deg,#FFB800,#FF1500);height:3px;transition:height .06s}
-.wb.ep{background:linear-gradient(180deg,#CC00FF,#7700CC)}
+.f-db{font-family:'Black Ops One',cursive;font-size:18px;color:#fff;letter-spacing:1px;transition:color .15s,text-shadow .15s}
+.f-db.hot{color:var(--y);text-shadow:0 0 20px rgba(255,184,0,.8)}
+.f-db.clip{color:var(--r);text-shadow:0 0 20px rgba(255,21,0,.9);animation:clipFlash .1s infinite}
+@keyframes clipFlash{0%,100%{opacity:1}50%{opacity:.5}}
+.f-name{font-size:10px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;letter-spacing:.5px}
 
-.vs-div{display:flex;flex-direction:column;align-items:center;gap:5px;padding-bottom:20px}
-.vs-sm{font-family:'Black Ops One',cursive;font-size:22px;color:var(--r);filter:drop-shadow(0 0 10px #FF1500)}
+/* WAVEFORM */
+.waveform{display:flex;align-items:center;justify-content:center;gap:2px;height:28px}
+.wbar{width:3px;border-radius:2px;height:3px;background:linear-gradient(180deg,#FFB800,#FF1500);transition:height .08s}
+.wbar.en{background:linear-gradient(180deg,#CC00FF,#7700CC)}
 
-/* ═══ SCREAM BTN ═══ */
-.sbwrap{width:100%;display:flex;justify-content:center;padding:6px 14px 14px}
-.sbtn{width:min(320px,88vw);height:66px;background:linear-gradient(135deg,#FF1500,#FF6B00);border:none;border-radius:14px;font-family:'Black Ops One',cursive;font-size:21px;letter-spacing:3px;color:#fff;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 6px 44px rgba(255,21,0,.52),0 0 0 2px rgba(255,107,0,.28);transition:transform .1s;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent}
-.sbtn:active,.sbtn.active{transform:scale(.95);background:linear-gradient(135deg,#FF6B00,#FFB800);box-shadow:0 6px 64px rgba(255,184,0,.68),0 0 0 2px rgba(255,184,0,.5)}
+/* VS DIVIDER */
+.arena-vs{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;padding-bottom:16px;flex-shrink:0}
+.arena-vs-txt{font-family:'Black Ops One',cursive;font-size:20px;color:var(--r);filter:drop-shadow(0 0 10px #FF1500)}
+.fire-mid{font-size:22px;animation:flameL 1s ease-in-out infinite alternate}
 
-/* ═══ RESULT ═══ */
-#screen-result{gap:18px}
-.rbadge{font-family:'Black Ops One',cursive;font-size:clamp(42px,10vw,78px);letter-spacing:4px;animation:rDrop .65s cubic-bezier(.34,1.56,.64,1)}
-@keyframes rDrop{from{transform:scale(.25) rotate(-14deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.rbadge.win{background:linear-gradient(180deg,#fff,#FFB800 32%,#FF6B00 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 28px #FF6B00)}
-.rbadge.lose{color:#2a2a2a}
-.rbadge.draw{background:linear-gradient(180deg,#fff,#555);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.rscores{display:flex;gap:16px;align-items:center;width:min(460px,92vw)}
-.rscard{flex:1;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,107,0,.16);border-radius:13px;padding:14px 8px;transition:border-color .3s,background .3s}
-.rscard.winner{border-color:var(--o);background:rgba(255,107,0,.08);box-shadow:0 0 22px rgba(255,107,0,.18)}
-.rsval{font-family:'Black Ops One',cursive;font-size:28px;color:var(--o)}
-.rsname{font-size:11px;color:var(--dim);margin-top:3px}
-.rsub{font-family:'Bebas Neue',cursive;letter-spacing:6px;color:var(--dim);font-size:15px}
+/* ══ SCREAM BUTTON ══ */
+.scream-area{width:100%;padding:6px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.scream-btn{width:min(340px,90vw);height:64px;background:var(--pr);border:none;border-radius:16px;font-family:'Black Ops One',cursive;font-size:20px;letter-spacing:3px;color:#fff;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 6px 40px rgba(255,21,0,.5),0 0 0 1px rgba(255,107,0,.3);transition:transform .08s;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent}
+.scream-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 60%);pointer-events:none}
+.scream-btn.active{background:linear-gradient(135deg,#FF8C00,#FFD700);box-shadow:0 0 60px rgba(255,184,0,.7),0 0 0 2px rgba(255,184,0,.5),0 6px 30px rgba(255,107,0,.4);transform:scale(.98)}
+.scream-hint{font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
 
-/* ═══ LEADERBOARD ═══ */
-#screen-lb{justify-content:flex-start;overflow-y:auto;padding:20px 16px}
-.lb-inner{width:min(520px,96vw);margin:0 auto}
-.lb-title{font-family:'Black Ops One',cursive;font-size:30px;letter-spacing:3px;text-align:center;margin:14px 0 18px;background:linear-gradient(90deg,#FF1500,#FF6B00,#FFB800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.lb-row{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,107,0,.1);margin-bottom:7px;transition:background .2s}
-.lb-row:hover{background:rgba(255,107,0,.06)}
-.lb-row.me{border-color:var(--o);background:rgba(255,107,0,.09)}
-.lb-rank{font-family:'Black Ops One',cursive;font-size:20px;min-width:34px;color:var(--dim)}
-.lb-rank.g{color:#FFD700;text-shadow:0 0 12px #FFD700}
-.lb-rank.s{color:#C0C0C0;text-shadow:0 0 12px #C0C0C0}
-.lb-rank.b{color:#CD7F32;text-shadow:0 0 12px #CD7F32}
-.lb-av{font-size:26px}
-.lb-info{flex:1;min-width:0}
-.lb-uname{font-family:'Black Ops One',cursive;font-size:14px;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lb-sub{font-size:10px;color:var(--dim);margin-top:2px}
-.lb-right{text-align:right;flex-shrink:0}
-.lb-db{font-family:'Black Ops One',cursive;font-size:17px;color:var(--o)}
-.lb-streak{font-size:11px;color:var(--y);margin-top:2px}
-.lb-loading{text-align:center;color:var(--dim);font-size:13px;padding:32px;letter-spacing:2px;animation:blnk 1.4s infinite}
-.lb-setup{text-align:center;padding:28px 16px;line-height:2.2;color:#444}
-.lb-setup strong{color:#fff} .lb-setup code{color:var(--o);background:rgba(255,107,0,.1);padding:2px 6px;border-radius:4px;font-size:12px}
+/* ══ RESULT ══ */
+#screen-result{gap:16px}
+.result-icon{font-size:52px;animation:iconFloat .6s ease-in-out infinite alternate}
+@keyframes iconFloat{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-14px) rotate(5deg)}}
+.result-badge{font-family:'Black Ops One',cursive;font-size:clamp(44px,10vw,80px);letter-spacing:4px;text-align:center;animation:badgeDrop .7s cubic-bezier(.34,1.56,.64,1)}
+@keyframes badgeDrop{from{transform:scale(.2) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.result-badge.win{background:linear-gradient(180deg,#fff 0%,#FFD700 30%,#FF6B00 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 30px rgba(255,107,0,.6))}
+.result-badge.lose{color:#1e1e1e}
+.result-badge.draw{background:linear-gradient(180deg,#fff,#555);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-vs{display:flex;gap:14px;align-items:center;width:min(480px,94vw)}
+.rcard{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,107,0,.15);border-radius:16px;padding:16px 10px;text-align:center;transition:all .4s}
+.rcard.winner{border-color:var(--o);background:rgba(255,107,0,.08);box-shadow:0 0 30px rgba(255,107,0,.15)}
+.rcard-db{font-family:'Black Ops One',cursive;font-size:26px;color:var(--o)}
+.rcard-name{font-size:10px;color:var(--dim);margin-top:4px;letter-spacing:1px}
+.result-sub{font-family:'Bebas Neue',cursive;letter-spacing:6px;color:var(--dim);font-size:14px}
+.next-txt{color:#1e1e1e;font-size:11px;letter-spacing:2px}
 
-/* ═══ AUDIO PERM ═══ */
-#screen-audio{gap:22px;text-align:center}
-.perm-icon{font-size:68px;animation:iBob 1.5s ease-in-out infinite alternate}
-@keyframes iBob{from{transform:translateY(0)}to{transform:translateY(-15px)}}
-.perm-title{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:2px;color:var(--o)}
-.perm-desc{color:var(--dim);font-size:14px;line-height:1.75;max-width:300px}
+/* ══ TOP BUTTONS ══ */
+.top-right{position:fixed;top:14px;right:14px;z-index:100;display:flex;gap:8px}
+.icon-btn{background:rgba(255,255,255,.04);border:1px solid rgba(255,107,0,.15);border-radius:10px;padding:8px 12px;font-size:16px;cursor:pointer;color:#fff;transition:all .2s;line-height:1}
+.icon-btn:hover{background:rgba(255,107,0,.12);border-color:rgba(255,107,0,.35);transform:scale(1.08)}
 
-/* ═══ TOP BAR ═══ */
-.top-btns{position:fixed;top:14px;right:14px;z-index:100;display:flex;gap:8px}
-.nav-lb{position:fixed;top:14px;left:14px;z-index:100}
-.icon-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,107,0,.18);border-radius:10px;padding:9px 13px;font-size:17px;cursor:pointer;color:#fff;transition:background .2s,transform .2s;line-height:1}
-.icon-btn:hover{background:rgba(255,107,0,.14);transform:scale(1.08)}
+/* ══ SETTINGS MODAL ══ */
+.overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:#0a0a0a;border:1px solid rgba(255,107,0,.22);border-radius:22px;padding:28px;width:min(380px,92vw);transform:scale(.88) translateY(20px);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-title{font-family:'Black Ops One',cursive;font-size:20px;letter-spacing:2px;color:var(--o);margin-bottom:20px}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.srow:last-of-type{border:0}
+.slabel{font-size:13px;font-weight:600;color:#bbb}
+.toggle{width:44px;height:24px;border-radius:12px;background:rgba(255,255,255,.08);position:relative;cursor:pointer;transition:background .28s;flex-shrink:0}
+.toggle.on{background:linear-gradient(90deg,#FF1500,#FF6B00)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:transform .28s}
+.toggle.on::after{transform:translateX(20px)}
+.modal-close{width:100%;margin-top:18px;background:none;border:1px solid rgba(255,107,0,.2);color:var(--dim);border-radius:10px;padding:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;letter-spacing:2px;transition:all .2s}
+.modal-close:hover{background:rgba(255,107,0,.08);color:#fff}
 
-/* ═══ MODAL ═══ */
-.moverlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.moverlay.open{opacity:1;pointer-events:all}
-.modal{background:#0d0d0d;border:1px solid rgba(255,107,0,.26);border-radius:20px;padding:26px 28px;width:min(380px,92vw);box-shadow:0 0 64px rgba(255,21,0,.15);transform:scale(.9);transition:transform .3s}
-.moverlay.open .modal{transform:scale(1)}
-.modal h2{font-family:'Black Ops One',cursive;font-size:20px;letter-spacing:2px;margin-bottom:18px;color:var(--o)}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.srow:last-of-type{border:none}
-.slabel{font-size:13px;color:#ccc;font-weight:600}
-.tog{width:44px;height:23px;border-radius:12px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:background .3s}
-.tog.on{background:linear-gradient(90deg,#FF1500,#FF6B00)}
-.tog::after{content:'';position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .28s}
-.tog.on::after{transform:translateX(21px)}
-.mclose{background:none;border:1px solid rgba(255,107,0,.22);color:#666;border-radius:8px;padding:9px 18px;cursor:pointer;font-size:13px;margin-top:16px;width:100%;transition:background .2s;font-family:'Inter',sans-serif}
-.mclose:hover{background:rgba(255,107,0,.1);color:#fff}
+/* ══ CONNECTION DOT ══ */
+.cdot{position:fixed;bottom:14px;right:14px;width:8px;height:8px;border-radius:50%;z-index:100;transition:all .3s}
+.cdot.connecting{background:var(--o);animation:cdotPulse 1.2s ease-in-out infinite}
+.cdot.live{background:#00FF88;box-shadow:0 0 12px #00FF88}
+.cdot.dead{background:var(--r)}
+@keyframes cdotPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,0,.7)}50%{box-shadow:0 0 0 8px rgba(255,107,0,0)}}
+.demo-pill{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.2);border-radius:100px;padding:4px 12px;font-size:9px;letter-spacing:3px;color:rgba(255,107,0,.4);text-transform:uppercase;z-index:50;display:none}
 
-/* ═══ FX ELEMENTS ═══ */
-.fire-burst{position:fixed;pointer-events:none;z-index:999;animation:bFade .9s ease-out forwards;font-size:36px}
-@keyframes bFade{0%{transform:scale(.4) translateY(0);opacity:1}100%{transform:scale(2.2) translateY(-75px);opacity:0}}
-.sflash{position:fixed;inset:0;z-index:998;pointer-events:none;background:radial-gradient(circle at center,rgba(255,107,0,.35) 0%,transparent 66%);animation:sfFade .45s ease-out forwards}
-@keyframes sfFade{to{opacity:0}}
-.roar-txt{position:fixed;z-index:999;font-family:'Black Ops One',cursive;font-size:clamp(36px,8vw,64px);background:linear-gradient(90deg,#FF1500,#FF6B00,#FFB800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;pointer-events:none;animation:roarFly 1s ease-out forwards;letter-spacing:3px;left:50%;white-space:nowrap;top:60%}
-@keyframes roarFly{0%{opacity:0;top:62%;transform:translateX(-50%) scale(.4)}28%{opacity:1;top:40%;transform:translateX(-50%) scale(1.1)}100%{opacity:0;top:16%;transform:translateX(-50%) scale(.8)}}
-.shake{animation:scrShake .42s ease-in-out}
-@keyframes scrShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-8px,4px)}40%{transform:translate(8px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(5px,-2px)}}
+/* ══ SCREEN FX ══ */
+.fx-burst{position:fixed;pointer-events:none;z-index:990;animation:burstOut 1s ease-out forwards}
+@keyframes burstOut{0%{transform:scale(.3) translateY(0);opacity:1}100%{transform:scale(2.5) translateY(-80px);opacity:0}}
+.fx-flash{position:fixed;inset:0;z-index:989;pointer-events:none;animation:flashOut .5s ease-out forwards}
+@keyframes flashOut{0%{opacity:1}100%{opacity:0}}
+.fx-word{position:fixed;z-index:991;font-family:'Black Ops One',cursive;font-size:clamp(40px,9vw,72px);letter-spacing:4px;pointer-events:none;animation:wordFly 1.1s ease-out forwards;left:50%;top:55%;white-space:nowrap}
+@keyframes wordFly{0%{opacity:0;top:58%;transform:translateX(-50%) scale(.4)}25%{opacity:1;top:38%;transform:translateX(-50%) scale(1.05)}100%{opacity:0;top:12%;transform:translateX(-50%) scale(.85)}}
+.body-shake{animation:bodyShake .45s ease-in-out}
+@keyframes bodyShake{0%,100%{transform:none}20%{transform:translate(-9px,5px)}40%{transform:translate(9px,-5px)}60%{transform:translate(-6px,3px)}80%{transform:translate(6px,-3px)}}
 
-/* ═══ CONN DOT ═══ */
-.cdot{position:fixed;bottom:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--o);animation:cP 1.5s ease-in-out infinite;z-index:100}
-@keyframes cP{0%,100%{box-shadow:0 0 0 0 rgba(255,107,0,.7)}50%{box-shadow:0 0 0 8px rgba(255,107,0,0)}}
-.cdot.on{background:#00FF88;animation:none;box-shadow:0 0 10px #00FF88}
-.cdot.off{background:var(--r);animation:none}
-.demo-tag{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:2px;color:rgba(255,107,0,.3);font-weight:700;text-transform:uppercase;z-index:50;display:none}
+/* ══ AUDIO PERM ══ */
+#screen-audio{gap:20px;text-align:center}
+.perm-big{font-size:72px;animation:permBob 1.6s ease-in-out infinite alternate}
+@keyframes permBob{from{transform:translateY(0) scale(1)}to{transform:translateY(-16px) scale(1.08)}}
+.perm-title{font-family:'Black Ops One',cursive;font-size:26px;letter-spacing:2px;color:var(--o)}
+.perm-sub{color:var(--dim);font-size:14px;line-height:1.8;max-width:280px}
 
-/* ═══ CROWN ANIM ═══ */
-@keyframes crownB{from{transform:translateY(0) rotate(-7deg)}to{transform:translateY(-11px) rotate(7deg)}}
-
-@media(max-height:680px){.vtrack{height:190px}.card{padding:20px 22px}.logo{font-size:40px}}
-@media(max-height:580px){.vtrack{height:150px}.arena{gap:12px}.bhdr{margin-bottom:0}}
+@media(max-height:700px){.meter-wrap{min-height:160px;max-height:200px}.logo{font-size:42px}.card{padding:18px 20px}}
+@media(max-height:600px){.meter-wrap{min-height:120px;max-height:160px}.battle-top{margin-bottom:4px}}
 </style>
 </head>
 <body>
 
 <div id="pbg"></div>
+<div class="top-right">
+  <button class="icon-btn" onclick="openSettings()" title="Einstellungen">⚙️</button>
+</div>
+<div class="cdot connecting" id="cdot"></div>
+<div class="demo-pill" id="demoPill">🔥 DEMO</div>
 
-<!-- TOP BUTTONS -->
-<div class="nav-lb"><button class="icon-btn" onclick="openLB()" title="Weltrangliste">🏆</button></div>
-<div class="top-btns"><button class="icon-btn" onclick="openSettings()" title="Einstellungen">⚙️</button></div>
-<div class="cdot" id="cdot"></div>
-<div class="demo-tag" id="demoTag">🔥 DEMO MODE</div>
-
-<!-- ════════ SETTINGS MODAL ════════ -->
-<div class="moverlay" id="settModal">
+<!-- ════ SETTINGS ════ -->
+<div class="overlay" id="settOverlay">
   <div class="modal">
-    <h2>⚙️ EINSTELLUNGEN</h2>
-    <div class="srow"><span class="slabel">🔊 Soundeffekte</span><div class="tog on" id="tog-sfx" onclick="togSet('sfx')"></div></div>
-    <div class="srow"><span class="slabel">🎵 Hintergrundmusik</span><div class="tog on" id="tog-music" onclick="togSet('music')"></div></div>
-    <div class="srow"><span class="slabel">💥 Screen-Shake</span><div class="tog on" id="tog-shake" onclick="togSet('shake')"></div></div>
-    <div class="srow"><span class="slabel">🔥 Partikel-Effekte</span><div class="tog on" id="tog-particles" onclick="togSet('particles')"></div></div>
-    <div class="srow"><span class="slabel">🎤 Gegner live hören</span><div class="tog on" id="tog-hear" onclick="togSet('hear')"></div></div>
-    <button class="mclose" onclick="closeModal('settModal')">SCHLIESSEN</button>
+    <div class="modal-title">⚙️ SETTINGS</div>
+    <div class="srow"><span class="slabel">🔊 Sound FX</span><div class="toggle on" id="t-sfx" onclick="togSet('sfx')"></div></div>
+    <div class="srow"><span class="slabel">🎵 Musik</span><div class="toggle on" id="t-music" onclick="togSet('music')"></div></div>
+    <div class="srow"><span class="slabel">💥 Screen Shake</span><div class="toggle on" id="t-shake" onclick="togSet('shake')"></div></div>
+    <div class="srow"><span class="slabel">🔥 Partikel</span><div class="toggle on" id="t-particles" onclick="togSet('particles')"></div></div>
+    <div class="srow"><span class="slabel">🎤 Gegner hören</span><div class="toggle on" id="t-hear" onclick="togSet('hear')"></div></div>
+    <button class="modal-close" onclick="closeSett()">SCHLIESSEN</button>
   </div>
 </div>
 
-<!-- ════════ SCREEN: HOME ════════ -->
+<!-- ════ HOME ════ -->
 <div class="screen" id="screen-home">
-  <div class="logo-wrap">
-    <svg class="fl-svg fl-l" viewBox="0 0 60 100"><path d="M30 95C10 80 5 65 15 50 5 60 8 40 20 35 15 45 25 42 22 28 30 38 28 22 35 15 33 28 42 25 40 38 48 30 50 42 44 52 55 40 52 62 40 72 45 60 38 65 35 80Z" fill="url(#fg)"/><defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="50%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs></svg>
+  <div class="logo-outer">
+    <svg class="flame-side l" viewBox="0 0 60 100"><path d="M30 95C10 80 5 65 15 50 5 60 8 40 20 35 15 45 25 42 22 28 30 38 28 22 35 15 33 28 42 25 40 38 48 30 50 42 44 52 55 40 52 62 40 72 45 60 38 65 35 80Z" fill="url(#gf)"/><defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="60%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs></svg>
+    <div class="logo-glow" aria-hidden="true">YELL TO HELL</div>
     <div class="logo">YELL TO HELL</div>
-    <svg class="fl-svg fl-r" viewBox="0 0 60 100"><path d="M30 95C10 80 5 65 15 50 5 60 8 40 20 35 15 45 25 42 22 28 30 38 28 22 35 15 33 28 42 25 40 38 48 30 50 42 44 52 55 40 52 62 40 72 45 60 38 65 35 80Z" fill="url(#fg2)"/><defs><linearGradient id="fg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="50%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs></svg>
+    <svg class="flame-side r" viewBox="0 0 60 100"><path d="M30 95C10 80 5 65 15 50 5 60 8 40 20 35 15 45 25 42 22 28 30 38 28 22 35 15 33 28 42 25 40 38 48 30 50 42 44 52 55 40 52 62 40 72 45 60 38 65 35 80Z" fill="url(#gf2)"/><defs><linearGradient id="gf2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800"/><stop offset="60%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FF1500"/></linearGradient></defs></svg>
   </div>
   <div class="logo-sub">WHO SCREAMS LOUDER?</div>
 
-  <div class="card" style="margin-top:22px">
-    <label class="flabel">🔥 WÄHLE DEINEN AVATAR</label>
+  <div class="card" style="margin-top:20px">
+    <label class="flabel">WÄHLE DEINEN AVATAR</label>
     <div class="av-grid" id="avGrid">
-      <button class="av-btn sel" data-av="😤" onclick="selAv(this)">😤</button>
-      <button class="av-btn" data-av="👹" onclick="selAv(this)">👹</button>
-      <button class="av-btn" data-av="🤬" onclick="selAv(this)">🤬</button>
-      <button class="av-btn" data-av="💀" onclick="selAv(this)">💀</button>
-      <button class="av-btn" data-av="🔥" onclick="selAv(this)">🔥</button>
-      <button class="av-btn" data-av="⚡" onclick="selAv(this)">⚡</button>
-      <button class="av-btn" data-av="🦁" onclick="selAv(this)">🦁</button>
-      <button class="av-btn" data-av="🐉" onclick="selAv(this)">🐉</button>
+      <button class="av-btn sel" data-av="😤" onclick="pickAv(this)"><span>😤</span></button>
+      <button class="av-btn" data-av="👹" onclick="pickAv(this)"><span>👹</span></button>
+      <button class="av-btn" data-av="🤬" onclick="pickAv(this)"><span>🤬</span></button>
+      <button class="av-btn" data-av="💀" onclick="pickAv(this)"><span>💀</span></button>
+      <button class="av-btn" data-av="🔥" onclick="pickAv(this)"><span>🔥</span></button>
+      <button class="av-btn" data-av="⚡" onclick="pickAv(this)"><span>⚡</span></button>
+      <button class="av-btn" data-av="🦁" onclick="pickAv(this)"><span>🦁</span></button>
+      <button class="av-btn" data-av="🐉" onclick="pickAv(this)"><span>🐉</span></button>
     </div>
-    <label class="flabel" for="uname">DEIN KRIEGSNAME</label>
+    <label class="flabel" for="uname">KRIEGSNAME</label>
     <input class="ninput" id="uname" type="text" maxlength="20" placeholder="NoName!" autocomplete="off" spellcheck="false"/>
     <div id="homeStreak" style="display:none;justify-content:center">
-      <div class="streak-badge"><span class="sf">🔥</span> <span id="homeStreakNum">0</span> WIN STREAK</div>
+      <div class="streak-pill"><span class="sf">🔥</span> <span id="streakNum">0</span> WIN STREAK</div>
     </div>
-    <button class="btn" onclick="startMatch()">🔥 FIND A MATCH</button>
-    <button class="btn sec" onclick="openLB()">🏆 WELTRANGLISTE</button>
+    <button class="btn" onclick="goPlay()">🔥 FIND A MATCH</button>
   </div>
-  <div style="margin-top:13px;color:#222;font-size:10px;letter-spacing:3px;text-transform:uppercase">Schrei lauter als dein Gegner — 10 Sekunden</div>
+  <div style="margin-top:12px;color:#1a1a1a;font-size:9px;letter-spacing:4px;text-transform:uppercase">10 SEKUNDEN · WER SCHREIT LAUTER?</div>
 </div>
 
-<!-- ════════ SCREEN: AUDIO PERMISSION ════════ -->
+<!-- ════ AUDIO PERM ════ -->
 <div class="screen hidden" id="screen-audio">
-  <div class="perm-icon">🎤</div>
-  <div class="perm-title">MIC AKTIVIEREN</div>
-  <div class="perm-desc">YELL TO HELL braucht dein Mikrofon um zu messen wer lauter schreit.<br><br><strong style="color:var(--o)">Erlaube den Zugriff wenn dein Browser fragt.</strong></div>
-  <button class="btn" style="width:min(300px,85vw);margin-top:6px" onclick="reqMic()">🎤 MIKROFON ERLAUBEN</button>
-  <div style="color:#2a2a2a;font-size:10px;margin-top:10px;letter-spacing:1px">Kein Audio wird gespeichert oder gesendet</div>
+  <div class="perm-big">🎤</div>
+  <div class="perm-title">MIKROFON ERLAUBEN</div>
+  <div class="perm-sub">YELL TO HELL braucht dein Mikrofon um die Lautstärke zu messen.<br><br><strong style="color:var(--o)">Drücke unten und erlaube den Zugriff.</strong></div>
+  <button class="btn" style="width:min(300px,85vw);margin-top:6px" onclick="reqMic()">🎤 MIKROFON AKTIVIEREN</button>
+  <div style="color:#1e1e1e;font-size:10px;margin-top:10px;letter-spacing:2px">Audio wird nicht gespeichert</div>
 </div>
 
-<!-- ════════ SCREEN: MATCHMAKING ════════ -->
+<!-- ════ MATCHMAKING ════ -->
 <div class="screen hidden" id="screen-match" style="gap:0">
-  <div class="orbit-wrap">
-    <div class="oring"></div><div class="oring r2"></div><div class="oring r3"></div>
-    <div class="oicon">🔥</div>
+  <div class="orbit-sys">
+    <div class="oring"></div><div class="oring"></div><div class="oring"></div>
+    <div class="orbit-center">🔥</div>
   </div>
-  <div class="mstatus">SUCHE GEGNER</div>
-  <div class="mdots" style="margin-top:8px"><span></span><span></span><span></span></div>
-  <div style="color:#333;font-size:11px;letter-spacing:2px;margin-top:12px;text-transform:uppercase" id="minfo">Verbinde...</div>
-  <button class="btn sec" style="width:min(230px,78vw);margin-top:20px" onclick="cancelMatch()">✕ ABBRECHEN</button>
+  <div class="mstatus" style="margin-bottom:14px">SUCHE GEGNER</div>
+  <div class="mdots"><span></span><span></span><span></span></div>
+  <div id="minfo" style="color:#2a2a2a;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-top:14px">Verbinde...</div>
+  <button class="btn ghost" style="width:min(220px,76vw);margin-top:22px" onclick="cancelMatch()">✕ ABBRECHEN</button>
 </div>
 
-<!-- ════════ SCREEN: FOUND + COUNTDOWN ════════ -->
-<div class="screen hidden" id="screen-found" style="gap:14px">
-  <div style="font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:9px;color:var(--o)">🔥 MATCH GEFUNDEN 🔥</div>
-  <div class="vs-banner">
+<!-- ════ FOUND ════ -->
+<div class="screen hidden" id="screen-found" style="gap:16px">
+  <div class="found-label">🔥 MATCH GEFUNDEN 🔥</div>
+  <div class="vs-wrap">
     <div class="pcard">
-      <div class="pav" id="f-myav">😤</div>
-      <div class="pname" id="f-myname">ME</div>
+      <span class="pcard-av" id="f-myav">😤</span>
+      <div class="pcard-name" id="f-myname">ME</div>
     </div>
-    <div class="vs-txt">VS</div>
+    <div class="vs-center">VS</div>
     <div class="pcard">
-      <div class="pav" id="f-enav">😈</div>
-      <div class="pname" id="f-enname">???</div>
+      <span class="pcard-av" id="f-enav">😈</span>
+      <div class="pcard-name" id="f-enname">???</div>
     </div>
   </div>
-  <div class="cdn" id="cdn">3</div>
-  <div style="font-family:'Bebas Neue',cursive;letter-spacing:7px;color:#222;font-size:14px">GET READY TO SCREAM</div>
+  <div class="cdn-num" id="cdnNum">3</div>
+  <div class="ready-txt">GET READY TO SCREAM</div>
 </div>
 
-<!-- ════════ SCREEN: BATTLE ════════ -->
+<!-- ════ BATTLE ════ -->
 <div class="screen hidden" id="screen-battle">
-  <div class="bhdr">
-    <div class="bname-wrap">
-      <div class="blabel">Du</div>
+  <div class="battle-top">
+    <div class="bname-blk">
+      <div class="bsmall">Du</div>
       <div class="bname" id="b-myname">ME</div>
     </div>
-    <div style="text-align:center">
-      <div class="timer" id="timerD">10</div>
-      <div style="font-size:8px;letter-spacing:3px;color:#222;text-transform:uppercase">sek</div>
+    <div class="timer-blk">
+      <div class="timer" id="timer">10</div>
+      <div class="timer-lbl">SEK</div>
     </div>
-    <div class="bname-wrap" style="text-align:right">
-      <div class="blabel" style="text-align:right">Gegner</div>
-      <div class="bname" id="b-enname">ENEMY</div>
+    <div class="bname-blk" style="text-align:right">
+      <div class="bsmall" style="text-align:right">Gegner</div>
+      <div class="bname" id="b-enname" style="direction:rtl">ENEMY</div>
     </div>
   </div>
 
   <div class="arena">
-    <!-- MY BAR -->
-    <div class="vpwrap">
-      <div class="vlabel" id="lbl-me">ICH</div>
-      <div style="font-size:26px" id="b-myav">😤</div>
-      <div class="vtrack" id="myTrack">
-        <div class="tick" style="bottom:90%"></div><div class="tick-lbl" style="bottom:90%">90</div>
-        <div class="tick" style="bottom:75%"></div><div class="tick-lbl" style="bottom:75%">75</div>
-        <div class="tick" style="bottom:60%"></div><div class="tick-lbl" style="bottom:60%">60</div>
-        <div class="tick" style="bottom:45%"></div><div class="tick-lbl" style="bottom:45%">45</div>
-        <div class="tick" style="bottom:30%"></div><div class="tick-lbl" style="bottom:30%">30</div>
-        <div class="tick" style="bottom:15%"></div><div class="tick-lbl" style="bottom:15%">15</div>
-        <div class="vfill" id="myBar" style="height:0%"></div>
-        <div class="peak-line" id="myPeak" style="bottom:0%"></div>
+    <!-- ME -->
+    <div class="fighter">
+      <div class="f-label" id="lbl-me">ICH</div>
+      <div class="f-av" id="av-me">😤</div>
+      <div class="meter-wrap" id="mw-me">
+        <div class="meter-bg"></div>
+        <div class="meter-clip"></div>
+        <div class="tick-mark" style="bottom:90%"></div><div class="tick-label" style="bottom:90%">90</div>
+        <div class="tick-mark" style="bottom:75%"></div><div class="tick-label" style="bottom:75%">75</div>
+        <div class="tick-mark" style="bottom:60%"></div><div class="tick-label" style="bottom:60%">60</div>
+        <div class="tick-mark" style="bottom:45%"></div><div class="tick-label" style="bottom:45%">45</div>
+        <div class="tick-mark" style="bottom:30%"></div><div class="tick-label" style="bottom:30%">30</div>
+        <div class="tick-mark" style="bottom:15%"></div><div class="tick-label" style="bottom:15%">15</div>
+        <div class="meter-fill me" id="bar-me" style="height:0%"></div>
+        <div class="peak-hold me" id="peak-me" style="bottom:0%"></div>
       </div>
-      <div class="vdb" id="myDb">0 dB</div>
-      <div class="vname" id="vn-me">ME</div>
-      <div class="wform" id="myWave">
-        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
-        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
-        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+      <div class="f-db" id="db-me">0 dB</div>
+      <div class="f-name" id="fn-me">ME</div>
+      <div class="waveform" id="wave-me">
+        <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+        <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+        <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
       </div>
     </div>
 
-    <div class="vs-div">
-      <div class="vs-sm">VS</div>
-      <div style="font-size:24px;animation:flL 1.1s ease-in-out infinite alternate">🔥</div>
+    <div class="arena-vs">
+      <div class="arena-vs-txt">VS</div>
+      <div class="fire-mid">🔥</div>
     </div>
 
-    <!-- ENEMY BAR -->
-    <div class="vpwrap">
-      <div class="vlabel" id="lbl-en">GEGNER</div>
-      <div style="font-size:26px" id="b-enav">😈</div>
-      <div class="vtrack">
-        <div class="tick" style="bottom:90%"></div><div class="tick-lbl" style="bottom:90%">90</div>
-        <div class="tick" style="bottom:75%"></div><div class="tick-lbl" style="bottom:75%">75</div>
-        <div class="tick" style="bottom:60%"></div><div class="tick-lbl" style="bottom:60%">60</div>
-        <div class="tick" style="bottom:45%"></div><div class="tick-lbl" style="bottom:45%">45</div>
-        <div class="tick" style="bottom:30%"></div><div class="tick-lbl" style="bottom:30%">30</div>
-        <div class="tick" style="bottom:15%"></div><div class="tick-lbl" style="bottom:15%">15</div>
-        <div class="vfill en" id="enBar" style="height:0%"></div>
-        <div class="peak-line" id="enPeak" style="bottom:0%;background:#CC00FF;box-shadow:0 0 6px #CC00FF"></div>
+    <!-- ENEMY -->
+    <div class="fighter">
+      <div class="f-label" id="lbl-en">GEGNER</div>
+      <div class="f-av" id="av-en">😈</div>
+      <div class="meter-wrap" id="mw-en">
+        <div class="meter-bg"></div>
+        <div class="meter-clip"></div>
+        <div class="tick-mark" style="bottom:90%"></div><div class="tick-label" style="bottom:90%">90</div>
+        <div class="tick-mark" style="bottom:75%"></div><div class="tick-label" style="bottom:75%">75</div>
+        <div class="tick-mark" style="bottom:60%"></div><div class="tick-label" style="bottom:60%">60</div>
+        <div class="tick-mark" style="bottom:45%"></div><div class="tick-label" style="bottom:45%">45</div>
+        <div class="tick-mark" style="bottom:30%"></div><div class="tick-label" style="bottom:30%">30</div>
+        <div class="tick-mark" style="bottom:15%"></div><div class="tick-label" style="bottom:15%">15</div>
+        <div class="meter-fill en" id="bar-en" style="height:0%"></div>
+        <div class="peak-hold en" id="peak-en" style="bottom:0%"></div>
       </div>
-      <div class="vdb" id="enDb">0 dB</div>
-      <div class="vname" id="vn-en">ENEMY</div>
-      <div class="wform" id="enWave">
-        <div class="wb ep"></div><div class="wb ep"></div><div class="wb ep"></div>
-        <div class="wb ep"></div><div class="wb ep"></div><div class="wb ep"></div>
-        <div class="wb ep"></div><div class="wb ep"></div><div class="wb ep"></div>
+      <div class="f-db" id="db-en">0 dB</div>
+      <div class="f-name" id="fn-en">ENEMY</div>
+      <div class="waveform" id="wave-en">
+        <div class="wbar en"></div><div class="wbar en"></div><div class="wbar en"></div>
+        <div class="wbar en"></div><div class="wbar en"></div><div class="wbar en"></div>
+        <div class="wbar en"></div><div class="wbar en"></div><div class="wbar en"></div>
       </div>
     </div>
   </div>
 
-  <div class="sbwrap">
-    <button class="sbtn" id="sbtn"
+  <div class="scream-area">
+    <button class="scream-btn" id="screamBtn"
       onmousedown="screamOn()" onmouseup="screamOff()"
-      ontouchstart="screamOn(event)" ontouchend="screamOff(event)">
+      ontouchstart="screamOn(event)" ontouchend="screamOff(event)" ontouchcancel="screamOff(event)">
       <span style="font-size:22px">🎤</span>
-      <span id="sbtnTxt">HALTEN & SCHREIEN</span>
+      <span id="screamTxt">HALTEN & SCHREIEN</span>
     </button>
+    <div class="scream-hint">Knopf gedrückt halten und so laut wie möglich schreien</div>
   </div>
 </div>
 
-<!-- ════════ SCREEN: RESULT ════════ -->
+<!-- ════ RESULT ════ -->
 <div class="screen hidden" id="screen-result">
-  <div style="font-size:26px;animation:crownB .5s ease-in-out infinite alternate" id="ricon">🏆</div>
-  <div class="rbadge win" id="rbadge">DU GEWINNST!</div>
-  <div class="rscores">
-    <div class="rscard" id="myRCard">
-      <div class="rsval" id="myRDb">0 dB</div>
-      <div class="rsname" id="myRName">Du</div>
+  <div class="result-icon" id="r-icon">🏆</div>
+  <div class="result-badge win" id="r-badge">DU GEWINNST!</div>
+  <div class="result-vs">
+    <div class="rcard" id="r-mycard">
+      <div class="rcard-db" id="r-mydb">0 dB</div>
+      <div class="rcard-name" id="r-myname">Du</div>
     </div>
-    <div style="font-family:'Black Ops One',cursive;font-size:18px;color:#1a1a1a">VS</div>
-    <div class="rscard" id="enRCard">
-      <div class="rsval" id="enRDb">0 dB</div>
-      <div class="rsname" id="enRName">Gegner</div>
+    <div style="font-family:'Black Ops One',cursive;font-size:16px;color:#1a1a1a;flex-shrink:0">VS</div>
+    <div class="rcard" id="r-encard">
+      <div class="rcard-db" id="r-endb">0 dB</div>
+      <div class="rcard-name" id="r-enname">Gegner</div>
     </div>
   </div>
-  <div id="resultStreak" style="display:none;justify-content:center">
-    <div class="streak-badge"><span class="sf">🔥</span> <span id="resultStreakNum">2</span> WIN STREAK!</div>
+  <div id="r-streak" style="display:none;justify-content:center">
+    <div class="streak-pill"><span class="sf">🔥</span> <span id="r-streaknum">2</span> WIN STREAK!</div>
   </div>
-  <div class="rsub" id="rsub">LAUTESTER SCHREIER</div>
-  <div style="color:#2a2a2a;font-size:11px;letter-spacing:2px">Nächste Runde in <span id="nextIn">5</span>s</div>
-  <button class="btn sec" style="width:min(220px,75vw);margin-top:6px" onclick="openLB()">🏆 RANGLISTE</button>
-</div>
-
-<!-- ════════ SCREEN: LEADERBOARD ════════ -->
-<div class="screen hidden" id="screen-lb" style="justify-content:flex-start;overflow-y:auto">
-  <div class="lb-inner">
-    <div class="lb-title">🌍 WELTRANGLISTE</div>
-    <div id="lbContent"><div class="lb-loading">LADE RANGLISTE...</div></div>
-    <button class="btn sec" style="margin-top:14px;margin-bottom:20px" onclick="goTo('home')">← ZURÜCK</button>
-  </div>
+  <div class="result-sub" id="r-sub">LAUTESTER SCHREIER</div>
+  <div class="next-txt">Nächste Runde in <span id="nextIn">5</span>s</div>
 </div>
 
 <script>
-// ════════════════════════════════════════════════════════════════════
-//  YELL TO HELL v2 — Full Game Engine
-// ════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+//  YELL TO HELL v3 — REBUILT FROM SCRATCH
+// ══════════════════════════════════════════════════════
 
-// ── JSONBin.io Config ──
-// 1. Gehe zu https://jsonbin.io → kostenlos registrieren
-// 2. "Create Bin" → Inhalt: [] → speichern → Bin-ID aus URL kopieren
-// 3. API Keys → Master Key kopieren
-const JBIN_ID  = '6a39258bf5f4af5e291cb2b5';   // z.B. '6849abc1acd3cb34a8c2ef12'
-const JBIN_KEY = '$2a$10$1EC.zRdd7dT7jAR9YHe0aOi/FctBXGENlGNJKji1.nf5EOlfzzR0W';  // z.B. '$2a$10$XXXX...'
-const JBIN_URL = `https://api.jsonbin.io/v3/b/6a39258bf5f4af5e291cb2b5`;
-
-// ── Railway Server ──
 const WS_URL = 'wss://yell-to-hell-production.up.railway.app';
 
-// ════════════════════════════════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════════════════════════════════
 const G = {
-  screen:'home', username:'', avatar:'😤',
-  micGranted:false, isSolo:true,
-  set:{ sfx:true, music:true, shake:true, particles:true, hear:true },
-  audioCtx:null, analyser:null, micStream:null,
-  ws:null, roomId:null,
-  myVol:0, enVol:0,
-  myMaxDb:0, enMaxDb:0, myPeakDb:0, enPeakDb:0,
-  isScreaming:false,
-  enemyName:'ENEMY', enemyAv:'😈',
-  battleTimer:null, timerSec:10,
-  simId:null, pollId:null,
-  musicPlaying:false, musicNodes:{},
-  streak:0,
+  screen: 'home',
+  username: '', avatar: '😤',
+  micGranted: false,
+  audioCtx: null, analyser: null, micStream: null,
+  ws: null, roomId: null,
+  isSolo: true,
+  isScreaming: false,
+  myVol: 0, enVol: 0,
+  myMaxDb: 0, enMaxDb: 0,
+  myPeakPct: 0, enPeakPct: 0,
+  peakDecayId: null,
+  enemyName: 'ENEMY', enemyAv: '😈',
+  battleTimer: null, timerSec: 10,
+  simId: null, rafId: null,
+  streak: 0,
+  set: { sfx:true, music:true, shake:true, particles:true, hear:true },
+  musicOscs: [],
 };
 
-// Load streak
 try { G.streak = parseInt(localStorage.getItem('yth_streak')||'0')||0; } catch(e){}
-function saveStreak(){ try{ localStorage.setItem('yth_streak',G.streak); }catch(e){} }
+function saveStreak(){ try{ localStorage.setItem('yth_streak', G.streak); }catch(e){} }
 
-// ════════════════════════════════════════════════════════════════════
-//  AUDIO ENGINE
-// ════════════════════════════════════════════════════════════════════
-function getCtx(){
-  if(!G.audioCtx) G.audioCtx = new(window.AudioContext||window.webkitAudioContext)();
+// ══ AUDIO CTX ══
+function ctx(){
+  if(!G.audioCtx){
+    G.audioCtx = new(window.AudioContext||window.webkitAudioContext)();
+  }
   if(G.audioCtx.state==='suspended') G.audioCtx.resume();
   return G.audioCtx;
 }
-function tone(freq, type='sine', dur=.15, gain=.28, delay=0){
-  if(!G.set.sfx) return;
-  try{
-    const c=getCtx(),o=c.createOscillator(),g=c.createGain();
-    o.type=type; o.frequency.setValueAtTime(freq,c.currentTime+delay);
-    g.gain.setValueAtTime(0,c.currentTime+delay);
-    g.gain.linearRampToValueAtTime(gain,c.currentTime+delay+.01);
-    g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+delay+dur);
-    o.connect(g); g.connect(c.destination);
-    o.start(c.currentTime+delay); o.stop(c.currentTime+delay+dur+.01);
-  }catch(e){}
-}
-function nzBurst(gain, dur){
-  try{
-    const c=getCtx(), buf=c.createBuffer(1,c.sampleRate*dur,c.sampleRate);
-    const d=buf.getChannelData(0);
-    for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
-    const src=c.createBufferSource(), g=c.createGain();
-    src.buffer=buf; g.gain.setValueAtTime(gain,c.currentTime);
-    g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
-    src.connect(g); g.connect(c.destination); src.start(); src.stop(c.currentTime+dur+.01);
-  }catch(e){}
-}
+
+// ══ SOUND FX (tight, punchy, not annoying) ══
 function sfx(name){
   if(!G.set.sfx) return;
-  const t=tone, n=nzBurst;
+  const c = ctx();
+  const now = c.currentTime;
+  const osc = (f,t,d,g,del=0) => {
+    try{
+      const o=c.createOscillator(), gn=c.createGain();
+      o.type=t; o.frequency.setValueAtTime(f,now+del);
+      gn.gain.setValueAtTime(0,now+del);
+      gn.gain.linearRampToValueAtTime(g,now+del+.008);
+      gn.gain.exponentialRampToValueAtTime(.0001,now+del+d);
+      o.connect(gn); gn.connect(c.destination);
+      o.start(now+del); o.stop(now+del+d+.01);
+    }catch(e){}
+  };
+  const nz = (g,d,del=0) => {
+    try{
+      const buf=c.createBuffer(1,Math.ceil(c.sampleRate*d),c.sampleRate);
+      const ch=buf.getChannelData(0);
+      for(let i=0;i<ch.length;i++) ch[i]=Math.random()*2-1;
+      const src=c.createBufferSource(), gn=c.createGain();
+      src.buffer=buf; gn.gain.setValueAtTime(g,now+del);
+      gn.gain.exponentialRampToValueAtTime(.0001,now+del+d);
+      src.connect(gn); gn.connect(c.destination);
+      src.start(now+del); src.stop(now+del+d+.01);
+    }catch(e){}
+  };
   switch(name){
-    case'click':  t(800,'square',.08,.2); t(1200,'square',.06,.1,.06); break;
-    case'match':  [500,700,900,1200].forEach((f,i)=>t(f,'sawtooth',.12,.2,i*.08)); break;
-    case'cd':     t(440,'square',.1,.32); break;
-    case'go':     [300,500,800,1200,1600].forEach((f,i)=>t(f,'sawtooth',.2,.4,i*.06)); n(.32,.4); break;
-    case'scream': n(.13,.07); break;
-    case'win':    [400,500,600,800,1000,1200].forEach((f,i)=>t(f,'triangle',.3,.35,i*.1)); break;
-    case'lose':   [400,300,200,140].forEach((f,i)=>t(f,'sawtooth',.3,.3,i*.12)); break;
-    case'tick':   t(900,'square',.08,.38); break;
+    case 'click': osc(600,'square',.06,.15); break;
+    case 'found': [440,554,659,880].forEach((f,i)=>osc(f,'triangle',.15,.22,i*.07)); break;
+    case 'cd':    osc(660,'square',.08,.28); nz(.04,.05); break;
+    case 'go':    [220,330,440,660,880,1100].forEach((f,i)=>osc(f,'sawtooth',.18,.32,i*.05)); nz(.4,.3); break;
+    case 'impact':nz(.25,.06); osc(80,'sawtooth',.1,.4); break;
+    case 'win':   [440,554,659,880,1108].forEach((f,i)=>osc(f,'triangle',.28,.3,i*.09)); break;
+    case 'lose':  [440,330,220,165].forEach((f,i)=>osc(f,'sawtooth',.25,.25,i*.1)); break;
+    case 'tick':  osc(1000,'square',.05,.3); break;
   }
 }
 
-// ── BG MUSIC ──
+// ══ GENERATIVE MUSIC (dark ambient hell beat) ══
+let musicIntervals = [];
 function startMusic(){
-  if(!G.set.music || G.musicPlaying) return;
+  if(!G.set.music || G.musicOscs.length) return;
   try{
-    const c=getCtx(); G.musicPlaying=true;
-    const bass=c.createOscillator(), bg=c.createGain();
-    bass.type='sawtooth'; bass.frequency.value=55; bg.gain.value=.032;
-    bass.connect(bg); bg.connect(c.destination); bass.start();
-    const beat=c.createOscillator(), dg=c.createGain();
-    beat.type='square'; beat.frequency.value=110; dg.gain.value=0;
-    beat.connect(dg); dg.connect(c.destination); beat.start();
-    let t=0;
-    const bi=setInterval(()=>{
-      if(!G.musicPlaying){clearInterval(bi);return;}
-      const now=c.currentTime, p=[1,0,0,1,0,1,0,0];
-      if(p[t%8]){dg.gain.setValueAtTime(.05,now);dg.gain.exponentialRampToValueAtTime(.0001,now+.13);}
-      t++;
-    },150);
-    const mel=[220,277,330,415,330,277]; let mi=0;
-    const ml=setInterval(()=>{
-      if(!G.musicPlaying){clearInterval(ml);return;}
-      const c2=getCtx(),o=c2.createOscillator(),g=c2.createGain();
-      o.type='triangle'; o.frequency.value=mel[mi%mel.length];
-      g.gain.setValueAtTime(.02,c2.currentTime); g.gain.exponentialRampToValueAtTime(.0001,c2.currentTime+.26);
-      o.connect(g); g.connect(c2.destination); o.start(); o.stop(c2.currentTime+.3); mi++;
-    },400);
-    G.musicNodes={bass,bg,bi,ml};
+    const c = ctx();
+    // Sub bass drone
+    const bass = c.createOscillator(), bassG = c.createGain();
+    bass.type = 'sawtooth'; bass.frequency.value = 40;
+    bassG.gain.value = 0.04;
+    bass.connect(bassG); bassG.connect(c.destination); bass.start();
+    G.musicOscs.push(bass);
+    // Second bass note
+    const bass2 = c.createOscillator(), bass2G = c.createGain();
+    bass2.type = 'sine'; bass2.frequency.value = 60;
+    bass2G.gain.value = 0.025;
+    bass2.connect(bass2G); bass2G.connect(c.destination); bass2.start();
+    G.musicOscs.push(bass2);
+    // Pulse kick
+    let beat = 0;
+    const kickPattern = [1,0,0,0,1,0,1,0];
+    const i1 = setInterval(()=>{
+      if(!G.set.music){ return; }
+      if(kickPattern[beat%8]){
+        try{
+          const c2=ctx(), o=c2.createOscillator(), g=c2.createGain();
+          o.type='sine'; o.frequency.setValueAtTime(160,c2.currentTime);
+          o.frequency.exponentialRampToValueAtTime(40,c2.currentTime+.08);
+          g.gain.setValueAtTime(.18,c2.currentTime);
+          g.gain.exponentialRampToValueAtTime(.0001,c2.currentTime+.12);
+          o.connect(g); g.connect(c2.destination); o.start(); o.stop(c2.currentTime+.14);
+        }catch(e){}
+      }
+      beat++;
+    }, 200);
+    // Dark hi-hat
+    const i2 = setInterval(()=>{
+      if(!G.set.music) return;
+      try{
+        const c2=ctx(), buf=c2.createBuffer(1,Math.ceil(c2.sampleRate*.04),c2.sampleRate);
+        const d=buf.getChannelData(0);
+        for(let k=0;k<d.length;k++) d[k]=Math.random()*2-1;
+        const src=c2.createBufferSource(), g=c2.createGain();
+        const f=c2.createBiquadFilter(); f.type='highpass'; f.frequency.value=6000;
+        src.buffer=buf; g.gain.setValueAtTime(.03,c2.currentTime);
+        g.gain.exponentialRampToValueAtTime(.0001,c2.currentTime+.04);
+        src.connect(f); f.connect(g); g.connect(c2.destination); src.start(); src.stop(c2.currentTime+.05);
+      }catch(e){}
+    }, 400);
+    // Ominous melody
+    const notes = [55,49,52,58,55,52,49,46];
+    let ni = 0;
+    const i3 = setInterval(()=>{
+      if(!G.set.music) return;
+      try{
+        const c2=ctx(), o=c2.createOscillator(), g=c2.createGain();
+        o.type='triangle'; o.frequency.value=notes[ni%notes.length];
+        g.gain.setValueAtTime(0,c2.currentTime);
+        g.gain.linearRampToValueAtTime(.03,c2.currentTime+.05);
+        g.gain.exponentialRampToValueAtTime(.0001,c2.currentTime+.6);
+        o.connect(g); g.connect(c2.destination); o.start(); o.stop(c2.currentTime+.65);
+        ni++;
+      }catch(e){}
+    }, 800);
+    musicIntervals = [i1, i2, i3];
   }catch(e){}
 }
 function stopMusic(){
   try{
-    G.musicPlaying=false;
-    if(G.musicNodes.bass) G.musicNodes.bass.stop();
-    if(G.musicNodes.bi)   clearInterval(G.musicNodes.bi);
-    if(G.musicNodes.ml)   clearInterval(G.musicNodes.ml);
-    G.musicNodes={};
+    G.musicOscs.forEach(o=>{ try{o.stop();}catch(e){} });
+    G.musicOscs = [];
+    musicIntervals.forEach(i=>clearInterval(i));
+    musicIntervals = [];
   }catch(e){}
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  GEGNER LIVE HÖREN — synthetisches Stimmgeräusch aus dB-Wert
-// ════════════════════════════════════════════════════════════════════
-let enAudioThrottle=0;
-function playEnemy(vol){
-  if(!G.set.hear || vol<.08) return;
-  const now=performance.now();
-  if(now-enAudioThrottle<70) return; // max ~14x/sec
-  enAudioThrottle=now;
+// ══ ENEMY VOICE AUDIO (real voice synthesis from volume) ══
+// Uses Web Audio to create voice-like sound proportional to enemy volume
+let enAudioT = 0;
+function playEnemyVoice(vol){
+  if(!G.set.hear || vol < .06) return;
+  const now = performance.now();
+  if(now - enAudioT < 60) return;
+  enAudioT = now;
   try{
-    const c=getCtx();
-    const dur=.1;
-    // Noise source (breath/voice texture)
-    const buf=c.createBuffer(1,Math.ceil(c.sampleRate*dur),c.sampleRate);
-    const d=buf.getChannelData(0);
-    for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
-    const src=c.createBufferSource(); src.buffer=buf;
-    // Bandpass — voice frequency range
-    const bp=c.createBiquadFilter();
-    bp.type='bandpass'; bp.frequency.value=400+vol*1400; bp.Q.value=2;
-    // Second harmonic for "scream" character
-    const bp2=c.createBiquadFilter();
-    bp2.type='bandpass'; bp2.frequency.value=800+vol*2200; bp2.Q.value=1.5;
-    // Gain envelope
-    const g=c.createGain();
-    g.gain.setValueAtTime(vol*.22,c.currentTime);
-    g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
-    // Slight reverb via delay
-    const delay=c.createDelay(.08);
-    delay.delayTime.value=.03;
-    const dg=c.createGain(); dg.gain.value=.25;
-    src.connect(bp); src.connect(bp2);
-    bp.connect(g); bp2.connect(g);
-    g.connect(c.destination);
-    g.connect(delay); delay.connect(dg); dg.connect(c.destination);
-    src.start(); src.stop(c.currentTime+dur+.02);
+    const c = ctx();
+    const dur = .12;
+    // WHITE NOISE shaped like a scream
+    const buf = c.createBuffer(1, Math.ceil(c.sampleRate*dur), c.sampleRate);
+    const ch = buf.getChannelData(0);
+    for(let i=0;i<ch.length;i++){
+      // Add some periodicity to simulate voice pitch
+      const pitch = 200 + vol * 300;
+      ch[i] = (Math.random()*2-1) * Math.abs(Math.sin(i/c.sampleRate*pitch*Math.PI*2));
+    }
+    const src = c.createBufferSource(); src.buffer = buf;
+    // Formant filters for voice character
+    const f1 = c.createBiquadFilter(); f1.type='bandpass'; f1.frequency.value=500+vol*200; f1.Q.value=3;
+    const f2 = c.createBiquadFilter(); f2.type='bandpass'; f2.frequency.value=1500+vol*500; f2.Q.value=2;
+    const f3 = c.createBiquadFilter(); f3.type='bandpass'; f3.frequency.value=2500+vol*800; f3.Q.value=1.5;
+    // Gain
+    const gn = c.createGain();
+    gn.gain.setValueAtTime(vol*.28, c.currentTime);
+    gn.gain.exponentialRampToValueAtTime(.0001, c.currentTime+dur);
+    // Mix formants
+    src.connect(f1); src.connect(f2); src.connect(f3);
+    f1.connect(gn); f2.connect(gn); f3.connect(gn);
+    gn.connect(c.destination);
+    src.start(); src.stop(c.currentTime+dur+.01);
   }catch(e){}
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  PARTICLES
-// ════════════════════════════════════════════════════════════════════
-(function(){
-  const bg=document.getElementById('pbg');
+// ══ PARTICLES ══
+(function spawnEmbers(){
+  const bg = document.getElementById('pbg');
   setInterval(()=>{
     if(!G.set.particles) return;
-    const e=document.createElement('div'); e.className='ember';
-    const sz=Math.random()*7+3;
-    e.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:-10px;--drift:${(Math.random()-.5)*140}px;animation-duration:${3+Math.random()*5}s;animation-delay:${Math.random()*1.5}s;opacity:0`;
-    bg.appendChild(e); setTimeout(()=>e.remove(),9500);
-  },180);
+    const e = document.createElement('div');
+    e.className = 'ember';
+    const s = 3 + Math.random()*8;
+    const hue = Math.random() > .3 ? '#FF6B00' : '#FFB800';
+    e.style.cssText = `
+      width:${s}px;height:${s}px;
+      left:${Math.random()*100}%;bottom:-10px;
+      --d:${(Math.random()-.5)*150}px;
+      animation-duration:${3.5+Math.random()*5}s;
+      animation-delay:${Math.random()*2}s;opacity:0;
+      background:radial-gradient(circle,${hue} 0%,#FF1500 60%,transparent 100%);
+    `;
+    bg.appendChild(e);
+    setTimeout(()=>e.remove(), 9500);
+  }, 160);
 })();
 
-// ════════════════════════════════════════════════════════════════════
-//  SCREEN TRANSITIONS
-// ════════════════════════════════════════════════════════════════════
+// ══ SCREEN TRANSITIONS ══
 function goTo(id){
-  const curr=document.querySelector('.screen:not(.hidden)');
-  const next=document.getElementById('screen-'+id);
-  if(!next || G.screen===id) return;
+  const curr = document.querySelector('.screen:not(.hidden)');
+  const next = document.getElementById('screen-'+id);
+  if(!next || G.screen === id) return;
+  G.screen = id;
   if(curr){
-    curr.classList.add('s-out');
-    setTimeout(()=>{ curr.classList.add('hidden'); curr.classList.remove('s-out'); },320);
+    curr.classList.add('leaving');
+    setTimeout(()=>{ curr.classList.add('hidden'); curr.classList.remove('leaving'); }, 280);
   }
   setTimeout(()=>{
     next.classList.remove('hidden');
-    next.classList.add('s-in');
-    setTimeout(()=>next.classList.remove('s-in'),400);
-  }, curr ? 280 : 0);
-  G.screen=id;
+    next.classList.add('entering');
+    setTimeout(()=>next.classList.remove('entering'), 420);
+  }, curr ? 250 : 0);
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  AVATAR
-// ════════════════════════════════════════════════════════════════════
-function selAv(btn){
+// ══ AVATAR ══
+function pickAv(btn){
   document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
-  G.avatar=btn.dataset.av;
+  G.avatar = btn.dataset.av;
   sfx('click');
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  MATCHMAKING
-// ════════════════════════════════════════════════════════════════════
-function startMatch(){
+// ══ STREAK ══
+function refreshHomeStreak(){
+  const d = document.getElementById('homeStreak');
+  if(G.streak > 0){
+    d.style.display = 'flex';
+    document.getElementById('streakNum').textContent = G.streak;
+  } else { d.style.display = 'none'; }
+}
+
+// ══ PLAY BUTTON ══
+function goPlay(){
   sfx('click');
-  getCtx();
+  ctx(); // unlock audio
   G.username = document.getElementById('uname').value.trim() || 'NoName!';
   if(!G.micGranted){ goTo('audio'); return; }
-  doMatch();
+  startMatchmaking();
 }
-function doMatch(){
+
+// ══ MIC ══
+async function reqMic(){
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:false, noiseSuppression:false, autoGainControl:false }, video:false });
+    G.micStream = stream; G.micGranted = true;
+    const c = ctx();
+    const src = c.createMediaStreamSource(stream);
+    const an = c.createAnalyser();
+    an.fftSize = 2048; an.smoothingTimeConstant = .2;
+    src.connect(an); G.analyser = an;
+    sfx('found');
+    startMatchmaking();
+  }catch(e){
+    alert('Mikrofon-Zugriff verweigert! Bitte in den Browser-Einstellungen erlauben.');
+  }
+}
+
+function getMicLevel(){
+  if(!G.analyser) return 0;
+  const data = new Uint8Array(G.analyser.frequencyBinCount);
+  G.analyser.getByteFrequencyData(data);
+  let sum = 0;
+  for(let i=0;i<data.length;i++) sum += data[i];
+  return Math.min((sum/data.length)/128, 1);
+}
+
+// dB scale: silence=0, loud scream=90-100
+function toDb(v){
+  if(v<=0) return 0;
+  const db = 20*Math.log10(Math.max(v, 1e-7)) + 60;
+  return Math.max(0, Math.round(db * 1.65));
+}
+
+// ══ MATCHMAKING ══
+function startMatchmaking(){
   goTo('match');
-  document.getElementById('minfo').textContent='Verbinde mit Server...';
+  document.getElementById('minfo').textContent = 'Verbinde...';
   connectWS();
 }
 function cancelMatch(){
   sfx('click');
   if(G.ws){ G.ws.close(); G.ws=null; }
-  showHomeStreak();
+  refreshHomeStreak();
   goTo('home');
   startMusic();
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  WEBSOCKET
-// ════════════════════════════════════════════════════════════════════
+// ══ WEBSOCKET ══
 function connectWS(){
-  setCdot('');
+  setCdot('connecting');
   try{
-    const ws=new WebSocket(WS_URL);
-    G.ws=ws;
-    const to=setTimeout(()=>{ ws.close(); soloFallback(); },5000);
-    ws.onopen=()=>{
-      clearTimeout(to); setCdot('on');
-      document.getElementById('minfo').textContent=`Suche Gegner als ${G.username}...`;
-      ws.send(JSON.stringify({type:'join', name:G.username, avatar:G.avatar}));
+    const ws = new WebSocket(WS_URL);
+    G.ws = ws;
+    const timeout = setTimeout(()=>{ ws.close(); fallbackSolo(); }, 5000);
+    ws.onopen = ()=>{
+      clearTimeout(timeout);
+      setCdot('live');
+      document.getElementById('minfo').textContent = `Als ${G.username} suchen...`;
+      ws.send(JSON.stringify({ type:'join', name:G.username, avatar:G.avatar }));
     };
-    ws.onmessage=ev=>{
-      const m=JSON.parse(ev.data);
-      if(m.type==='matched'){
-        G.isSolo=false; G.enemyName=m.enemyName; G.enemyAv=m.enemyAv||'😈'; G.roomId=m.roomId;
-        foundScreen(m.enemyName, m.enemyAv||'😈');
-      } else if(m.type==='volume'){
-        G.enVol=Math.min(1,Math.max(0,m.volume||0));
-        if(G.set.hear) playEnemy(G.enVol);
-      } else if(m.type==='opponentLeft'){
-        showRoarTxt('GEGNER FLOH 💨');
-      }
+    ws.onmessage = ev =>{
+      try{
+        const m = JSON.parse(ev.data);
+        if(m.type==='matched'){
+          G.isSolo=false; G.enemyName=m.enemyName; G.enemyAv=m.enemyAv||'😈'; G.roomId=m.roomId;
+          showFound(m.enemyName, m.enemyAv||'😈');
+        } else if(m.type==='volume'){
+          G.enVol = Math.min(1, Math.max(0, m.volume||0));
+          if(G.set.hear) playEnemyVoice(G.enVol);
+        } else if(m.type==='opponentLeft'){
+          fxWord('GEGNER FLOH 💨');
+        }
+      }catch(e){}
     };
-    ws.onerror=()=>{ clearTimeout(to); soloFallback(); };
-    ws.onclose=()=>setCdot('off');
-  }catch(e){ soloFallback(); }
+    ws.onerror = ()=>{ clearTimeout(timeout); fallbackSolo(); };
+    ws.onclose  = ()=>{ if(G.screen!=='battle'&&G.screen!=='result') setCdot('dead'); };
+  }catch(e){ fallbackSolo(); }
 }
 function sendVol(v){
   if(G.ws && G.ws.readyState===WebSocket.OPEN)
-    G.ws.send(JSON.stringify({type:'volume', volume:v, roomId:G.roomId}));
+    G.ws.send(JSON.stringify({ type:'volume', volume:v, roomId:G.roomId }));
 }
-function setCdot(c){
+function setCdot(s){
   const d=document.getElementById('cdot');
-  d.className='cdot'+(c?' '+c:'');
+  d.className='cdot '+s;
 }
-function soloFallback(){
-  setCdot('off'); G.isSolo=true;
-  document.getElementById('demoTag').style.display='block';
-  document.getElementById('minfo').textContent='Demo-Modus — simulierter Gegner';
-  sfx('match');
+function fallbackSolo(){
+  setCdot('dead'); G.isSolo=true;
+  document.getElementById('demoPill').style.display='block';
+  document.getElementById('minfo').textContent='Demo — simulierter Gegner';
+  sfx('found');
   setTimeout(()=>{
-    const en=randEnemy(); G.enemyName=en.name; G.enemyAv=en.av;
-    foundScreen(en.name, en.av);
-  },1500);
+    const en = BOTS[Math.floor(Math.random()*BOTS.length)];
+    G.enemyName=en.name; G.enemyAv=en.av;
+    showFound(en.name, en.av);
+  }, 1400);
 }
-const ENEMIES=[
-  {name:'ScreamKing',av:'👹'},{name:'HellVoice',av:'🤬'},{name:'ROAR_BOT',av:'🔥'},
-  {name:'DemonScream',av:'💀'},{name:'FireThroat',av:'⚡'},{name:'LoudDevil',av:'😈'},
-  {name:'ThunderMouth',av:'🦁'},{name:'BlazeRoar',av:'🐉'},
+const BOTS=[
+  {name:'ScreamGod',av:'🐉'},{name:'HellThroat',av:'👹'},{name:'ROAR_X',av:'🔥'},
+  {name:'DemonKing',av:'💀'},{name:'FireLord',av:'⚡'},{name:'LoudDevil',av:'😈'},
+  {name:'BlazeRoar',av:'🤬'},{name:'ThunderJaw',av:'🦁'},
 ];
-function randEnemy(){ return ENEMIES[Math.floor(Math.random()*ENEMIES.length)]; }
 
-// ════════════════════════════════════════════════════════════════════
-//  MIC
-// ════════════════════════════════════════════════════════════════════
-async function reqMic(){
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    G.micStream=stream; G.micGranted=true;
-    const c=getCtx(), src=c.createMediaStreamSource(stream);
-    const an=c.createAnalyser();
-    an.fftSize=2048; an.smoothingTimeConstant=.25;
-    src.connect(an); G.analyser=an;
-    sfx('match'); goTo('match');
-    setTimeout(doMatch, 80);
-  }catch(e){
-    alert('Mikrofon-Zugriff verweigert!\nBitte erlaube den Zugriff in deinen Browser-Einstellungen.');
-  }
-}
-
-// Raw 0-1 volume from mic
-function getMicRaw(){
-  if(!G.analyser) return 0;
-  const data=new Uint8Array(G.analyser.frequencyBinCount);
-  G.analyser.getByteFrequencyData(data);
-  let sum=0; for(let i=0;i<data.length;i++) sum+=data[i];
-  return Math.min((sum/data.length)/128, 1);
-}
-
-// Convert 0-1 linear amplitude → display dB (0..100 scale)
-// Maps silence→0 dB and loud scream→~90-100 dB
-function volToDb(v){
-  if(v<=0) return 0;
-  // 60dB dynamic range: v=1 → 60dB base, shifted to 0-100 scale
-  const db = 20*Math.log10(Math.max(v, 1e-6)) + 60;
-  return Math.max(0, Math.round(db * 1.65)); // stretch to 0-100
-}
-
-// ════════════════════════════════════════════════════════════════════
-//  FOUND + COUNTDOWN
-// ════════════════════════════════════════════════════════════════════
-function foundScreen(enName, enAv){
-  sfx('match');
-  ['f-myname','b-myname','vn-me'].forEach(id=>{ document.getElementById(id).textContent=G.username; });
-  ['f-enname','b-enname','vn-en'].forEach(id=>{ document.getElementById(id).textContent=enName; });
-  document.getElementById('f-myav').textContent=G.avatar;
-  document.getElementById('b-myav').textContent=G.avatar;
-  document.getElementById('f-enav').textContent=enAv;
-  document.getElementById('b-enav').textContent=enAv;
+// ══ FOUND SCREEN ══
+function showFound(enName, enAv){
+  sfx('found');
+  document.getElementById('f-myname').textContent = G.username;
+  document.getElementById('f-myav').textContent   = G.avatar;
+  document.getElementById('f-enname').textContent = enName;
+  document.getElementById('f-enav').textContent   = enAv;
+  document.getElementById('b-myname').textContent = G.username;
+  document.getElementById('b-enname').textContent = enName;
+  document.getElementById('fn-me').textContent    = G.username;
+  document.getElementById('fn-en').textContent    = enName;
+  document.getElementById('av-me').textContent    = G.avatar;
+  document.getElementById('av-en').textContent    = enAv;
   stopMusic();
   goTo('found');
-  runCountdown();
+  doCountdown();
 }
-function runCountdown(){
+function doCountdown(){
   let n=3;
-  const el=document.getElementById('cdn');
+  const el = document.getElementById('cdnNum');
   el.textContent=n; sfx('cd');
   const iv=setInterval(()=>{
     n--;
     if(n===0){
       clearInterval(iv);
-      el.textContent='🔥'; sfx('go'); doFlash();
+      el.textContent='🔥'; sfx('go'); fxFlash('#FF6B00');
       setTimeout(startBattle, 600);
     } else {
       sfx('cd'); el.textContent=n;
-      el.style.animation='none'; void el.offsetWidth; el.style.animation='cdA 1s ease-in-out';
+      el.style.animation='none'; void el.offsetWidth; el.style.animation='cdPop 1s cubic-bezier(.22,1,.36,1)';
     }
   },1000);
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  BATTLE
-// ════════════════════════════════════════════════════════════════════
+// ══ BATTLE ══
 function startBattle(){
   goTo('battle');
-  G.myMaxDb=0; G.enMaxDb=0; G.myPeakDb=0; G.enPeakDb=0;
+  G.myMaxDb=0; G.enMaxDb=0; G.myPeakPct=0; G.enPeakPct=0;
   G.timerSec=10;
-  document.getElementById('timerD').textContent='10';
-  document.getElementById('timerD').classList.remove('urg');
-  resetBar('my'); resetBar('en');
+  document.getElementById('timer').textContent='10';
+  document.getElementById('timer').classList.remove('danger');
+  resetMeters();
   if(G.isSolo) startSim();
-  G.battleTimer=setInterval(battleTick,1000);
-  startPoll();
-}
-function resetBar(who){
-  document.getElementById(who==='my'?'myBar':'enBar').style.height='0%';
-  document.getElementById(who==='my'?'myPeak':'enPeak').style.bottom='0%';
-  document.getElementById(who==='my'?'myDb':'enDb').textContent='0 dB';
+  G.battleTimer = setInterval(battleTick, 1000);
+  startPeakDecay();
+  rafLoop();
 }
 
-function startPoll(){
-  function loop(){
-    if(G.screen!=='battle') return;
-    const raw=getMicRaw();
-    const v = G.isScreaming ? raw : raw*.2;
-    G.myVol=v;
-    const db=volToDb(v);
-    if(db>G.myMaxDb) G.myMaxDb=db;
-    if(db>G.myPeakDb) G.myPeakDb=db;
-    sendVol(v);
-    renderBar('my', v, db, G.myPeakDb);
-
-    const edb=volToDb(G.enVol);
-    if(edb>G.enMaxDb) G.enMaxDb=edb;
-    if(edb>G.enPeakDb) G.enPeakDb=edb;
-    renderBar('en', G.enVol, edb, G.enPeakDb);
-
-    if(v>.55) triggerFX(v);
-    G.pollId=requestAnimationFrame(loop);
-  }
-  loop();
+function resetMeters(){
+  ['me','en'].forEach(w=>{
+    document.getElementById('bar-'+w).style.height='0%';
+    document.getElementById('peak-'+w).style.bottom='0%';
+    document.getElementById('db-'+w).textContent='0 dB';
+    document.getElementById('db-'+w).className='f-db';
+  });
 }
 
 function battleTick(){
   G.timerSec--;
-  const el=document.getElementById('timerD');
-  el.textContent=G.timerSec;
-  if(G.timerSec<=3){ sfx('tick'); el.classList.add('urg'); }
+  const el = document.getElementById('timer');
+  el.textContent = G.timerSec;
+  if(G.timerSec<=3){ sfx('tick'); el.classList.add('danger'); }
   if(G.timerSec<=0){
     clearInterval(G.battleTimer);
-    cancelAnimationFrame(G.pollId);
+    cancelAnimationFrame(G.rafId);
+    clearInterval(G.peakDecayId);
     stopSim();
-    setTimeout(showResult,400);
+    setTimeout(showResult,350);
   }
 }
 
-function renderBar(who, vol, db, peakDb){
-  const pct=Math.round(vol*100);
-  const barEl=document.getElementById(who==='my'?'myBar':'enBar');
-  const peakEl=document.getElementById(who==='my'?'myPeak':'enPeak');
-  const dbEl=document.getElementById(who==='my'?'myDb':'enDb');
-  const lblEl=document.getElementById(who==='my'?'lbl-me':'lbl-en');
-  const waveEl=document.getElementById(who==='my'?'myWave':'enWave');
-  barEl.style.height=pct+'%';
-  peakEl.style.bottom=Math.min(98,peakDb)+'%';
-  dbEl.textContent=db+' dB';
-  dbEl.classList.toggle('hot', db>55);
-  lblEl.classList.toggle('act', vol>.06);
-  // waveform
-  const active=vol>.06;
-  waveEl.querySelectorAll('.wb').forEach(b=>{
-    const h=active ? Math.max(3,vol*32*(0.4+Math.random())) : 3;
-    b.style.height=h+'px';
+function rafLoop(){
+  if(G.screen!=='battle'){ return; }
+  // MY VOLUME
+  const raw = getMicLevel();
+  const myV = G.isScreaming ? raw : raw*.15;
+  G.myVol = myV;
+  const myDb = toDb(myV);
+  if(myDb > G.myMaxDb) G.myMaxDb = myDb;
+  const myPct = Math.round(myV*100);
+  if(myPct > G.myPeakPct) G.myPeakPct = myPct;
+  sendVol(myV);
+  renderMeter('me', myPct, G.myPeakPct, myDb);
+  // ENEMY VOLUME
+  const enDb = toDb(G.enVol);
+  if(enDb > G.enMaxDb) G.enMaxDb = enDb;
+  const enPct = Math.round(G.enVol*100);
+  if(enPct > G.enPeakPct) G.enPeakPct = enPct;
+  renderMeter('en', enPct, G.enPeakPct, enDb);
+  // AVATAR ANIMATIONS
+  document.getElementById('av-me').classList.toggle('screaming', myV>.4);
+  document.getElementById('av-en').classList.toggle('screaming', G.enVol>.4);
+  // LOUD LABEL
+  document.getElementById('lbl-me').classList.toggle('loud', myV>.08);
+  document.getElementById('lbl-en').classList.toggle('loud', G.enVol>.08);
+  // FX
+  if(myV>.5 && Math.random()>.92) triggerFX(myV);
+  G.rafId = requestAnimationFrame(rafLoop);
+}
+
+function renderMeter(who, pct, peakPct, db){
+  document.getElementById('bar-'+who).style.height = pct+'%';
+  document.getElementById('peak-'+who).style.bottom = Math.min(97,peakPct)+'%';
+  const dbEl = document.getElementById('db-'+who);
+  dbEl.textContent = db+' dB';
+  dbEl.className = 'f-db' + (db>85?' clip':db>60?' hot':'');
+  // Waveform
+  const wave = document.getElementById('wave-'+who);
+  const vol = pct/100;
+  wave.querySelectorAll('.wbar').forEach(b=>{
+    const h = vol>.05 ? Math.max(3, vol*26*(0.3+Math.random())) : 3;
+    b.style.height = h+'px';
   });
 }
 
-// ── SCREAM BUTTON ──
-function screamOn(e){ if(e)e.preventDefault(); G.isScreaming=true; document.getElementById('sbtn').classList.add('active'); document.getElementById('sbtnTxt').textContent='🔥 SCHREI!!!'; sfx('scream'); }
-function screamOff(e){ if(e)e.preventDefault(); G.isScreaming=false; document.getElementById('sbtn').classList.remove('active'); document.getElementById('sbtnTxt').textContent='HALTEN & SCHREIEN'; }
+// Peak decay
+function startPeakDecay(){
+  G.peakDecayId = setInterval(()=>{
+    G.myPeakPct = Math.max(0, G.myPeakPct - 1.5);
+    G.enPeakPct = Math.max(0, G.enPeakPct - 1.5);
+  }, 80);
+}
 
-// ── ENEMY SIMULATION ──
+// SCREAM BUTTON
+function screamOn(e){ if(e) e.preventDefault(); G.isScreaming=true; document.getElementById('screamBtn').classList.add('active'); document.getElementById('screamTxt').textContent='🔥 JETZT SCHREIEN!!!'; sfx('impact'); }
+function screamOff(e){ if(e) e.preventDefault(); G.isScreaming=false; document.getElementById('screamBtn').classList.remove('active'); document.getElementById('screamTxt').textContent='HALTEN & SCHREIEN'; }
+
+// ENEMY SIM
 function startSim(){
-  let ph=0;
-  G.simId=setInterval(()=>{
-    ph+=.14;
-    const base=.28+.22*Math.sin(ph);
-    const spike=Math.random()>.8 ? Math.random()*.45 : 0;
-    G.enVol=Math.min(1, base+spike);
-    if(G.set.hear && G.enVol>.12) playEnemy(G.enVol);
-  },75);
+  let ph=0, burst=0;
+  G.simId = setInterval(()=>{
+    ph += .12; burst = Math.max(0, burst-.04);
+    if(Math.random()>.88) burst = .3+Math.random()*.5;
+    G.enVol = Math.min(1, .25+.2*Math.sin(ph)+burst);
+    if(G.set.hear && G.enVol>.1) playEnemyVoice(G.enVol);
+  }, 70);
 }
-function stopSim(){ if(G.simId){clearInterval(G.simId);G.simId=null;} G.enVol=0; }
+function stopSim(){ if(G.simId){ clearInterval(G.simId); G.simId=null; } G.enVol=0; }
 
-// ════════════════════════════════════════════════════════════════════
-//  EFFECTS
-// ════════════════════════════════════════════════════════════════════
+// ══ FX ══
 function triggerFX(v){
-  if(Math.random()>.88){
-    spawnFire();
-    if(G.set.shake && v>.7){ document.body.classList.add('shake'); setTimeout(()=>document.body.classList.remove('shake'),440); }
-  }
-  if(v>.9 && Math.random()>.93){ showRoarTxt(); doFlash(); }
+  if(Math.random()>.9){ fxBurst(); }
+  if(G.set.shake && v>.75 && Math.random()>.85){ document.body.classList.add('body-shake'); setTimeout(()=>document.body.classList.remove('body-shake'),450); }
+  if(v>.88 && Math.random()>.92){ fxWord(); fxFlash('rgba(255,107,0,.25)'); }
 }
-function spawnFire(){
+function fxBurst(){
   if(!G.set.particles) return;
-  const emojis=['🔥','💥','⚡','🌋','😤','💢','🔴'];
-  const el=document.createElement('div'); el.className='fire-burst';
-  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-  el.style.left=(16+Math.random()*68)+'%';
-  el.style.top=(26+Math.random()*34)+'%';
-  document.body.appendChild(el); setTimeout(()=>el.remove(),950);
-}
-function doFlash(){
-  const el=document.createElement('div'); el.className='sflash';
-  document.body.appendChild(el); setTimeout(()=>el.remove(),500);
-}
-function showRoarTxt(txt){
-  const words=['HELL YEAH!','LOUDER!!!','🔥🔥🔥','BEAST!','INSANE!','MONSTER!','DESTROY IT!','UNSTOPPABLE!'];
-  const el=document.createElement('div'); el.className='roar-txt';
-  el.textContent=txt||(words[Math.floor(Math.random()*words.length)]);
+  const ems = ['🔥','💥','⚡','🌋','💢','🔴','✨'];
+  const el = document.createElement('div');
+  el.className='fx-burst'; el.textContent=ems[Math.floor(Math.random()*ems.length)];
+  el.style.fontSize=(28+Math.random()*20)+'px';
+  el.style.left=(15+Math.random()*70)+'%';
+  el.style.top=(25+Math.random()*40)+'%';
   document.body.appendChild(el); setTimeout(()=>el.remove(),1050);
 }
+function fxFlash(color='rgba(255,107,0,.22)'){
+  const el=document.createElement('div'); el.className='fx-flash';
+  el.style.background=`radial-gradient(circle at center,${color} 0%,transparent 65%)`;
+  document.body.appendChild(el); setTimeout(()=>el.remove(),550);
+}
+const ROAR_WORDS=['HELL YEAH!','LOUDER!!!','🔥🔥🔥','BEAST!','INSANE!','DESTROY!','UNSTOPPABLE!','MONSTER!'];
+function fxWord(txt){
+  const el=document.createElement('div'); el.className='fx-word';
+  el.textContent = txt||(ROAR_WORDS[Math.floor(Math.random()*ROAR_WORDS.length)]);
+  el.style.background='linear-gradient(90deg,#FF1500,#FF6B00,#FFB800)';
+  el.style.webkitBackgroundClip='text'; el.style.webkitTextFillColor='transparent';
+  el.style.backgroundClip='text';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),1150);
+}
 
-// ════════════════════════════════════════════════════════════════════
-//  RESULT + STREAK
-// ════════════════════════════════════════════════════════════════════
+// ══ RESULT ══
 function showResult(){
   const myDb=G.myMaxDb, enDb=G.enMaxDb;
   const win=myDb>enDb, draw=myDb===enDb;
-  document.getElementById('myRDb').textContent=myDb+' dB';
-  document.getElementById('enRDb').textContent=enDb+' dB';
-  document.getElementById('myRName').textContent=G.username;
-  document.getElementById('enRName').textContent=G.enemyName;
-  document.getElementById('myRCard').classList.toggle('winner',win&&!draw);
-  document.getElementById('enRCard').classList.toggle('winner',!win&&!draw);
-  const badge=document.getElementById('rbadge');
-  const icon=document.getElementById('ricon');
-  const rsub=document.getElementById('rsub');
-  const streakDiv=document.getElementById('resultStreak');
-
+  document.getElementById('r-mydb').textContent=myDb+' dB';
+  document.getElementById('r-endb').textContent=enDb+' dB';
+  document.getElementById('r-myname').textContent=G.username;
+  document.getElementById('r-enname').textContent=G.enemyName;
+  document.getElementById('r-mycard').classList.toggle('winner',win&&!draw);
+  document.getElementById('r-encard').classList.toggle('winner',!win&&!draw);
+  const badge=document.getElementById('r-badge');
+  const icon=document.getElementById('r-icon');
+  const sub=document.getElementById('r-sub');
+  const sd=document.getElementById('r-streak');
   if(draw){
-    badge.textContent='UNENTSCHIEDEN!'; badge.className='rbadge draw';
-    icon.textContent='🤝'; rsub.textContent='GLEICHSTAND — REMATCH!';
-    sfx('match'); streakDiv.style.display='none';
+    badge.textContent='UNENTSCHIEDEN!'; badge.className='result-badge draw';
+    icon.textContent='🤝'; sub.textContent='GLEICHSTAND';
+    sfx('found'); sd.style.display='none';
+    G.streak=0; saveStreak();
   } else if(win){
-    badge.textContent='DU GEWINNST!'; badge.className='rbadge win';
-    icon.textContent='🏆'; rsub.textContent='LAUTESTER SCHREIER';
+    badge.textContent='DU GEWINNST!'; badge.className='result-badge win';
+    icon.textContent='🏆'; sub.textContent='LAUTESTER SCHREIER';
     sfx('win'); G.streak++; saveStreak();
-    for(let i=0;i<12;i++) setTimeout(spawnFire,i*90);
-    doFlash();
-    streakDiv.style.display='flex';
-    document.getElementById('resultStreakNum').textContent=G.streak;
-    submitScore(G.username, G.avatar, myDb, G.streak);
+    sd.style.display='flex'; document.getElementById('r-streaknum').textContent=G.streak;
+    for(let i=0;i<14;i++) setTimeout(fxBurst, i*80);
+    setTimeout(()=>fxFlash('#FF6B00'),100);
   } else {
-    badge.textContent='DU VERLIERST!'; badge.className='rbadge lose';
-    icon.textContent='💀'; rsub.textContent=G.enemyName+' SCHRIE LAUTER';
-    sfx('lose'); G.streak=0; saveStreak();
-    streakDiv.style.display='none';
+    badge.textContent='DU VERLIERST!'; badge.className='result-badge lose';
+    icon.textContent='💀'; sub.textContent=G.enemyName+' WAR LAUTER';
+    sfx('lose'); G.streak=0; saveStreak(); sd.style.display='none';
   }
-
   goTo('result');
   let n=5; document.getElementById('nextIn').textContent=n;
-  const ni=setInterval(()=>{ n--; document.getElementById('nextIn').textContent=n; if(n<=0){clearInterval(ni);doRematch();} },1000);
+  const ni=setInterval(()=>{
+    n--; document.getElementById('nextIn').textContent=n;
+    if(n<=0){ clearInterval(ni); doRematch(); }
+  },1000);
 }
 
 function doRematch(){
   G.myVol=0; G.enVol=0; G.isScreaming=false;
-  resetBar('my'); resetBar('en');
-  document.getElementById('timerD').textContent='10';
-  document.getElementById('timerD').classList.remove('urg');
-  document.getElementById('sbtn').classList.remove('active');
-  document.getElementById('sbtnTxt').textContent='HALTEN & SCHREIEN';
+  document.getElementById('screamBtn').classList.remove('active');
+  document.getElementById('screamTxt').textContent='HALTEN & SCHREIEN';
+  document.getElementById('timer').classList.remove('danger');
+  document.getElementById('demoPill').style.display='none';
   goTo('match');
-  document.getElementById('minfo').textContent='Suche neuen Gegner...';
+  document.getElementById('minfo').textContent='Suche nächsten Gegner...';
   if(G.isSolo){
-    setTimeout(()=>{ const en=randEnemy(); G.enemyName=en.name; G.enemyAv=en.av; foundScreen(en.name,en.av); },1800);
+    setTimeout(()=>{
+      const en=BOTS[Math.floor(Math.random()*BOTS.length)];
+      G.enemyName=en.name; G.enemyAv=en.av;
+      showFound(en.name,en.av);
+    },1600);
   } else { connectWS(); }
 }
 
-// ════════════════════════════════════════════════════════════════════
-//  LEADERBOARD — JSONBin.io
-// ════════════════════════════════════════════════════════════════════
-async function submitScore(name, av, db, streak){
-  if(JBIN_ID==='YOUR_BIN_ID') return;
-  try{
-    const r=await fetch(JBIN_URL+'/latest',{headers:{'X-Access-Key':JBIN_KEY,'X-Bin-Meta':'false'}});
-    let scores=[];
-    if(r.ok){ const j=await r.json(); scores=Array.isArray(j)?j:(j.record||[]); }
-    const idx=scores.findIndex(s=>s.name===name);
-    const entry={name,av,db,streak,date:new Date().toISOString().slice(0,10)};
-    if(idx>=0){ if(db>scores[idx].db) scores[idx]=entry; }
-    else scores.push(entry);
-    scores.sort((a,b)=>b.db-a.db);
-    scores=scores.slice(0,100);
-    await fetch(JBIN_URL,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Access-Key':JBIN_KEY},
-      body:JSON.stringify(scores)
-    });
-  }catch(e){ console.warn('Leaderboard submit failed',e); }
-}
-
-async function loadLB(){
-  const cont=document.getElementById('lbContent');
-  if(JBIN_ID==='YOUR_BIN_ID'){
-    cont.innerHTML=`<div class="lb-setup">
-      <div style="font-size:38px;margin-bottom:12px">🔧</div>
-      <div style="color:var(--o);font-family:'Black Ops One',cursive;font-size:18px;letter-spacing:2px;margin-bottom:10px">RANGLISTE EINRICHTEN</div>
-      <div>1. Gehe zu <strong>jsonbin.io</strong> → Gratis Account</div>
-      <div>2. <strong>New Bin</strong> erstellen → Inhalt: <code>[]</code></div>
-      <div>3. Bin-ID aus der URL kopieren</div>
-      <div>4. <strong>API Keys</strong> → Master Key kopieren</div>
-      <div>5. Beide Werte oben in der <code>index.html</code> eintragen</div>
-    </div>`;
-    return;
-  }
-  cont.innerHTML='<div class="lb-loading">LADE RANGLISTE...</div>';
-  try{
-    const r=await fetch(JBIN_URL+'/latest',{headers:{'X-Access-Key':JBIN_KEY,'X-Bin-Meta':'false'}});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const data=await r.json();
-    const scores=Array.isArray(data)?data:(data.record||[]);
-    if(!scores.length){ cont.innerHTML='<div class="lb-loading">Noch keine Einträge!</div>'; return; }
-    cont.innerHTML=scores.slice(0,50).map((s,i)=>{
-      const rc=i===0?'g':i===1?'s':i===2?'b':'';
-      const ri=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
-      const me=s.name===G.username;
-      return`<div class="lb-row${me?' me':''}">
-        <div class="lb-rank ${rc}">${ri}</div>
-        <div class="lb-av">${s.av||'😤'}</div>
-        <div class="lb-info">
-          <div class="lb-uname">${s.name}${me?' ← Du':''}</div>
-          <div class="lb-sub">${s.date||''}</div>
-        </div>
-        <div class="lb-right">
-          <div class="lb-db">${s.db} dB</div>
-          ${s.streak>1?`<div class="lb-streak">🔥 ${s.streak} streak</div>`:''}
-        </div>
-      </div>`;
-    }).join('');
-  }catch(e){
-    cont.innerHTML='<div class="lb-loading">Verbindungsfehler<br><span style="font-size:11px;color:#333">Prüfe JSONBin-Konfiguration</span></div>';
-  }
-}
-function openLB(){ sfx('click'); goTo('lb'); loadLB(); }
-
-// ════════════════════════════════════════════════════════════════════
-//  STREAK HOME DISPLAY
-// ════════════════════════════════════════════════════════════════════
-function showHomeStreak(){
-  const d=document.getElementById('homeStreak');
-  if(G.streak>0){ d.style.display='flex'; document.getElementById('homeStreakNum').textContent=G.streak; }
-  else d.style.display='none';
-}
-
-// ════════════════════════════════════════════════════════════════════
-//  SETTINGS
-// ════════════════════════════════════════════════════════════════════
-function openSettings(){ document.getElementById('settModal').classList.add('open'); }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+// ══ SETTINGS ══
+function openSettings(){ document.getElementById('settOverlay').classList.add('open'); }
+function closeSett(){ document.getElementById('settOverlay').classList.remove('open'); }
 function togSet(k){
   G.set[k]=!G.set[k];
-  document.getElementById('tog-'+k).classList.toggle('on',G.set[k]);
+  document.getElementById('t-'+k).classList.toggle('on',G.set[k]);
   if(k==='music'){ G.set.music ? startMusic() : stopMusic(); }
 }
+document.getElementById('settOverlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeSett(); });
 
-// ════════════════════════════════════════════════════════════════════
-//  RIPPLE EFFECT
-// ════════════════════════════════════════════════════════════════════
-document.addEventListener('pointerdown',e=>{
-  const btn=e.target.closest('.btn,.sbtn,.icon-btn,.av-btn');
+// ══ RIPPLE ══
+document.addEventListener('pointerdown', e=>{
+  const btn = e.target.closest('.btn,.scream-btn,.icon-btn,.av-btn');
   if(!btn) return;
   const r=document.createElement('span'); r.className='ripple';
-  const sz=Math.max(btn.clientWidth,btn.clientHeight)*2.2;
-  const rect=btn.getBoundingClientRect();
-  r.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
-  btn.appendChild(r); setTimeout(()=>r.remove(),580);
+  const s=Math.max(btn.clientWidth,btn.clientHeight)*2.4;
+  const rc=btn.getBoundingClientRect();
+  r.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-rc.left-s/2}px;top:${e.clientY-rc.top-s/2}px`;
+  btn.appendChild(r); setTimeout(()=>r.remove(),620);
 });
 
-// ════════════════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════════════════
+// ══ INIT ══
 window.addEventListener('load',()=>{
-  showHomeStreak();
+  refreshHomeStreak();
   document.addEventListener('pointerdown',()=>{
     if(['home','audio'].includes(G.screen)) startMusic();
-  },{once:true});
-  document.getElementById('settModal').addEventListener('click',e=>{
-    if(e.target===e.currentTarget) closeModal('settModal');
-  });
+  },{ once:true });
 });
 </script>
 </body>
